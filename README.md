@@ -1,4 +1,4 @@
-# Base Exact Online Client
+# Exact Online Base Client
 
 This package provides a base API Client around the Exact Online API.
 
