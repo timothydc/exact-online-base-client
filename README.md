@@ -55,7 +55,7 @@ $eolClient->disconnect();
 ```
 
 ### Internationalisation
-If you want to retrieve the language dependant fields in a different language (e.g. Item description and Item long description), call the connection with a language parameter.
+If you want to retrieve the language dependent fields in a different language (e.g. Item description and Item long description), call the connection with a language parameter.
 ```php
 use Picqer\Financials\Exact\Item;
 
