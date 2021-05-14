@@ -1,0 +1,65 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PolarisDC\ExactOnline\BaseClient\Authentication;
+
+use JsonException;
+use Symfony\Component\Filesystem\Filesystem;
+
+class TokenVault implements TokenVaultInterface
+{
+    protected string $storagePath;
+
+    public function __construct(?string $storagePath = null)
+    {
+        if ($storagePath) {
+            $this->setStoragePath($storagePath);
+        }
+    }
+
+    public function createToken(?string $accesToken, ?string $refreshToken, int $expiresAt): AccessTokenInterface
+    {
+        return new AccessToken($accesToken, $refreshToken, $expiresAt);
+    }
+
+    /**
+     * @param AccessTokenInterface $accessToken
+     * @throws JsonException
+     */
+    public function store(AccessTokenInterface $accessToken): void
+    {
+        (new Filesystem)
+            ->dumpFile($this->storagePath, json_encode([
+                'accessToken' => $accessToken->getAccessToken(),
+                'refreshToken' => $accessToken->getRefreshToken(),
+                'expiresAt' => $accessToken->getExpiresAt(),
+            ], JSON_THROW_ON_ERROR));
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function retrieve(): AccessTokenInterface
+    {
+        if (! (new Filesystem)->exists($this->storagePath)) {
+            return $this->createToken(null, null, 0);
+        }
+
+        $json = json_decode(file_get_contents($this->storagePath), true, 512, JSON_THROW_ON_ERROR);
+        return $this->createToken($json['accessToken'], $json['refreshToken'], $json['expiresAt']);
+    }
+
+    public function clear(): void
+    {
+        if ((new Filesystem)->exists($this->storagePath)) {
+            unlink($this->storagePath);
+        }
+    }
+
+    public function setStoragePath(string $storagePath): self
+    {
+        $this->storagePath = $storagePath;
+        return $this;
+    }
+}
