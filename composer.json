@@ -18,6 +18,7 @@
     "email": "support@polaris-dc.com"
   },
   "require": {
+    "php": "^7.4|^8.0",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.3.0",
     "monolog/monolog": "^1.26|^2.2",
@@ -34,5 +35,5 @@
     "sort-packages": true
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
+  "prefer-stable": true
 }
