@@ -54,6 +54,9 @@ class ExactOnlineClient
         return $connection;
     }
 
+    /**
+     * @throws ExactOnlineClientException
+     */
     public function startAuthorization(): void
     {
         $this->log('Exact Online Client: Starting Exact Online authorization flow.');
@@ -61,8 +64,7 @@ class ExactOnlineClient
         $connection = $this->initializeConnection();
 
         if ($connection->isAuthorized()) {
-            $this->log('Exact Online Client: Stopping, the client has already been authorized.');
-            return;
+            throw new ExactOnlineClientException('The Exact Online Client has already been authorized.');
         }
 
         $this->log('Exact Online Client: Redirecting to Exact Online for authorization.');
@@ -76,13 +78,12 @@ class ExactOnlineClient
      * @return bool
      * @throws ExactOnlineClientException
      */
-    public function completeAuthorization(string $authorizationCode): bool
+    public function completeAuthorization(string $authorizationCode): void
     {
         $connection = $this->initializeConnection();
 
         if ($connection->isAuthorized()) {
-            $this->log('Exact Online Client: Stopping, the client has already been authorized.');
-            return true;
+            throw new ExactOnlineClientException('The Exact Online Client has already been authorized.');
         }
 
         try {
@@ -93,7 +94,6 @@ class ExactOnlineClient
             $connection->connect();
 
             $this->log('Exact Online Client: Authorization flow completed successfully.');
-            return true;
         } catch (Exception $e) {
             // catch all underlying exceptions and throw our own
             $this->log('Exact Online Client: Exception during authorization flow.');
