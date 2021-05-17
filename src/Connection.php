@@ -24,7 +24,7 @@ class Connection extends PicqerConnection
 
     protected TokenVaultInterface $tokenVault;
 
-    public function __construct(?TokenVaultInterface $tokenVault = null, ?ClientConfiguration $configuration = null)
+    public function __construct(?ClientConfiguration $configuration = null, ?TokenVaultInterface $tokenVault = null)
     {
         $this->setLockKey('exact-online-connection-lock');
 
@@ -160,7 +160,7 @@ class Connection extends PicqerConnection
     {
         $this->log('Exact Online Client: Storing the fresh tokens in the token vault.');
         $this->tokenVault->store(
-            $this->tokenVault->createToken($connection->getAccessToken(), $connection->getRefreshToken(), $connection->getTokenExpires())
+            $this->tokenVault->makeToken($connection->getAccessToken(), $connection->getRefreshToken(), $connection->getTokenExpires())
         );
     }
 

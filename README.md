@@ -77,8 +77,8 @@ use PolarisDC\ExactOnline\BaseClient\Authentication\AccessTokenInterface;
 
 class TokenVault implements TokenVaultInterface
 {
-    public function createToken(?string $accesToken, ?string $refreshToken, int $expiresAt) : AccessTokenInterface{
-        // TODO: Implement createToken() method.
+    public function makeToken(?string $accesToken, ?string $refreshToken, int $expiresAt) : AccessTokenInterface{
+        // TODO: Implement makeToken() method.
         // Provide the means here to create the object which implements the AccesstokenInterface
     }
     public function store(AccessTokenInterface $accessToken) : void

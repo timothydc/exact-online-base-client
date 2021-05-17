@@ -18,7 +18,7 @@ class TokenVault implements TokenVaultInterface
         }
     }
 
-    public function createToken(?string $accesToken, ?string $refreshToken, int $expiresAt): AccessTokenInterface
+    public function makeToken(?string $accesToken, ?string $refreshToken, int $expiresAt): AccessTokenInterface
     {
         return new AccessToken($accesToken, $refreshToken, $expiresAt);
     }
@@ -43,11 +43,11 @@ class TokenVault implements TokenVaultInterface
     public function retrieve(): AccessTokenInterface
     {
         if (! (new Filesystem)->exists($this->storagePath)) {
-            return $this->createToken(null, null, 0);
+            return $this->makeToken(null, null, 0);
         }
 
         $json = json_decode(file_get_contents($this->storagePath), true, 512, JSON_THROW_ON_ERROR);
-        return $this->createToken($json['accessToken'], $json['refreshToken'], $json['expiresAt']);
+        return $this->makeToken($json['accessToken'], $json['refreshToken'], $json['expiresAt']);
     }
 
     public function clear(): void

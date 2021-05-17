@@ -6,7 +6,7 @@ namespace PolarisDC\ExactOnline\BaseClient\Authentication;
 
 interface TokenVaultInterface
 {
-    public function createToken(?string $accesToken, ?string $refreshToken, int $expiresAt): AccessTokenInterface;
+    public function makeToken(?string $accesToken, ?string $refreshToken, int $expiresAt): AccessTokenInterface;
 
     public function store(AccessTokenInterface $accessToken): void;
 
