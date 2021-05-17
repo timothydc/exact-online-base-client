@@ -77,19 +77,19 @@ use PolarisDC\ExactOnline\BaseClient\Authentication\AccessTokenInterface;
 
 class TokenVault implements TokenVaultInterface
 {
-    public function makeToken(?string $accesToken, ?string $refreshToken, int $expiresAt) : AccessTokenInterface{
+    public function makeToken(?string $accesToken, ?string $refreshToken, int $expiresAt): AccessTokenInterface{
         // TODO: Implement makeToken() method.
         // Provide the means here to create the object which implements the AccesstokenInterface
     }
-    public function store(AccessTokenInterface $accessToken) : void
+    public function store(AccessTokenInterface $accessToken): void
     {
         // TODO: Implement store() method.
     }
-    public function retrieve() : AccessTokenInterface
+    public function retrieve(): AccessTokenInterface
     {
         // TODO: Implement retrieve() method.
     }
-    public function clear() : void
+    public function clear(): void
     {
         // TODO: Implement clear() method.
     }
@@ -101,17 +101,17 @@ And also a custom Token class which extends the `AccessTokenInterface`-interface
 ```php
 use PolarisDC\ExactOnline\BaseClient\Authentication\AccessTokenInterface;
 
-class Token extends Model implements AccessTokenInterface
+class Token implements AccessTokenInterface
 {
-    public function getAccessToken() : ?string
+    public function getAccessToken(): ?string
     {
         // TODO: Implement getAccessToken() method.
     }
-    public function getRefreshToken() : ?string
+    public function getRefreshToken(): ?string
     {
         // TODO: Implement getRefreshToken() method.
     }
-    public function getExpiresAt() : int
+    public function getExpiresAt(): int
     {
         // TODO: Implement getExpiresAt() method.
     }
