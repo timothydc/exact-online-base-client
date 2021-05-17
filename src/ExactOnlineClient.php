@@ -75,7 +75,7 @@ class ExactOnlineClient
 
     /**
      * @param string $authorizationCode
-     * @return bool
+     * @return void
      * @throws ExactOnlineClientException
      */
     public function completeAuthorization(string $authorizationCode): void
