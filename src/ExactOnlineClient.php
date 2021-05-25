@@ -7,8 +7,8 @@ namespace PolarisDC\ExactOnline\BaseClient;
 use Exception;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
-use PolarisDC\ExactOnline\BaseClient\Authentication\TokenVaultInterface;
-use PolarisDC\ExactOnline\BaseClient\Support\Loggable;
+use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
 
 class ExactOnlineClient
 {
@@ -24,8 +24,6 @@ class ExactOnlineClient
     }
 
     /**
-     * @param string|null $language
-     * @return Connection
      * @throws AuthenticationException
      * @throws ExactOnlineClientException
      */
@@ -46,6 +44,7 @@ class ExactOnlineClient
         try {
             // actually connect
             $connection->connect();
+
         } catch (Exception $e) {
             // catch all underlying exceptions and throw our own
             throw new ExactOnlineClientException($e->getMessage(), $e->getCode(), $e);
@@ -74,8 +73,6 @@ class ExactOnlineClient
     }
 
     /**
-     * @param string $authorizationCode
-     * @return void
      * @throws ExactOnlineClientException
      */
     public function completeAuthorization(string $authorizationCode): void
@@ -94,6 +91,7 @@ class ExactOnlineClient
             $connection->connect();
 
             $this->log('Exact Online Client: Authorization flow completed successfully.');
+
         } catch (Exception $e) {
             // catch all underlying exceptions and throw our own
             $this->log('Exact Online Client: Exception during authorization flow.');

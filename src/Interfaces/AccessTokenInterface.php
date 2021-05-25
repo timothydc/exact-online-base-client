@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient\Authentication;
+namespace PolarisDC\ExactOnline\BaseClient\Interfaces;
 
 interface AccessTokenInterface
 {

@@ -1,16 +1,19 @@
 {
   "name": "polaris-dc/exact-online-base-client",
-  "description": "The Polaris DC Exact Online Base Client.",
+  "description": "Exact Online base client",
   "license": "MIT",
   "keywords": [
-    "Polaris Digital Commerce",
-    "Exact Online API Client"
+    "Exact Online"
   ],
   "authors": [
     {
       "name": "Maarten Waegeman",
       "email": "Maarten.Waegeman@polaris-dc.com",
-      "homepage": "https://www.polaris-dc.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Timothy De Cort",
+      "email": "Timothy.DeCort@polaris-dc.com",
       "role": "Developer"
     }
   ],
@@ -20,11 +23,10 @@
   "require": {
     "php": "^7.4|^8.0",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^7.3.0",
     "monolog/monolog": "^1.26|^2.2",
     "picqer/exact-php-client": "^3.26",
-    "symfony/filesystem": "^5.2",
-    "symfony/lock": "^4.4"
+    "symfony/filesystem": "^4.4|^5.2",
+    "symfony/lock": "^4.4|^5.2"
   },
   "autoload": {
     "psr-4": {

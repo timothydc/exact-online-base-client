@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient\Support;
+namespace PolarisDC\ExactOnline\BaseClient\Traits;
 
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface as Lock;

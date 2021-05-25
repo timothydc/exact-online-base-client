@@ -5,10 +5,10 @@ namespace PolarisDC\ExactOnline\BaseClient;
 
 use GuzzleHttp\Middleware;
 use Picqer\Financials\Exact\Connection as PicqerConnection;
-use PolarisDC\ExactOnline\BaseClient\Authentication\TokenVaultInterface;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\TokenRefreshException;
-use PolarisDC\ExactOnline\BaseClient\Support\Lockable;
-use PolarisDC\ExactOnline\BaseClient\Support\Loggable;
+use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use PolarisDC\ExactOnline\BaseClient\Traits\Lockable;
+use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\Lock\Exception\LockAcquiringException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
@@ -18,8 +18,8 @@ class Connection extends PicqerConnection
     use Lockable;
     use Loggable;
 
-    protected string $exactClientId;
-    protected string $exactWebhookSecret;
+    protected string $clientId;
+    protected string $webhookSecret;
     protected string $redirectUrl;
 
     protected TokenVaultInterface $tokenVault;
@@ -41,9 +41,9 @@ class Connection extends PicqerConnection
 
     public function applyConfiguration(ClientConfiguration $configuration): void
     {
-        $this->setExactClientId($configuration->getClientId());
+        $this->setClientId($configuration->getClientId());
         $this->setExactClientSecret($configuration->getClientSecret());
-        $this->setExactWebhookSecret($configuration->getWebhookSecret());
+        $this->setWebhookSecret($configuration->getWebhookSecret());
         $this->setRedirectUrl($configuration->getRedirectUrl());
         $this->setBaseUrl($configuration->getBaseUrl() ?: 'https://start.exactonline.be');
 
@@ -58,9 +58,16 @@ class Connection extends PicqerConnection
 
     protected function setCallbacks(): void
     {
-        $this->setAcquireAccessTokenLockCallback([$this, 'aquireAccessTokenLock']);
-        $this->setRefreshAccessTokenCallback([$this, 'refreshAccessToken']);
+        // use this to save the access token, refresh token and 'token expires time'
         $this->setTokenUpdateCallback([$this, 'updateAccessToken']);
+
+        // use this to load access token, refresh tokens and 'token expires time' from storage into your connection
+        $this->setRefreshAccessTokenCallback([$this, 'refreshAccessToken']);
+
+        // use this to lock the connection to block other connections from requesting a new refresh token
+        $this->setAcquireAccessTokenLockCallback([$this, 'acquireAccessTokenLock']);
+
+        // use this to unlock the connection
         $this->setAcquireAccessTokenUnlockCallback([$this, 'releaseAccessTokenLock']);
     }
 
@@ -81,25 +88,26 @@ class Connection extends PicqerConnection
         $this->insertMiddleWare(Middleware::mapRequest(fn (RequestInterface $request) => $request->withHeader('CustomDescriptionLanguage', $language)));
     }
 
-    public function getExactClientId(): string
+    public function getClientId(): string
     {
-        return $this->exactClientId;
+        return $this->clientId;
     }
 
-    public function setExactClientId($exactClientId): void
+    public function setClientId($exactClientId): void
     {
-        parent::setExactClientId($exactClientId);
-        $this->exactClientId = $exactClientId;
+        $this->setExactClientId($exactClientId);
+
+        $this->clientId = $exactClientId;
     }
 
-    public function getExactWebhookSecret(): string
+    public function getWebhookSecret(): string
     {
-        return $this->exactWebhookSecret;
+        return $this->webhookSecret;
     }
 
-    public function setExactWebhookSecret(string $exactWebhookSecret): void
+    public function setWebhookSecret(string $webhookSecret): void
     {
-        $this->exactWebhookSecret = $exactWebhookSecret;
+        $this->webhookSecret = $webhookSecret;
     }
 
     public function getRedirectUrl(): string
@@ -136,7 +144,7 @@ class Connection extends PicqerConnection
      * @param Connection $connection
      * @throws TokenRefreshException
      */
-    public function aquireAccessTokenLock(Connection $connection): void
+    public function acquireAccessTokenLock(Connection $connection): void
     {
         $this->log('Exact Online Client: Starting a new token refresh.');
 
