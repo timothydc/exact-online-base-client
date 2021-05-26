@@ -29,6 +29,11 @@ trait Loggable
         return $this;
     }
 
+    public function getLogger(): ?LoggerInterface
+    {
+        return $this->logger;
+    }
+
     public function setDefaultLogLevel(string $defaultLogLevel): self
     {
         $this->defaultLogLevel = $defaultLogLevel;
