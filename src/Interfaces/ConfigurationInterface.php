@@ -52,4 +52,13 @@ interface ConfigurationInterface
 
     // imported product should have the property "stock" in EOL
     public function getProductImportHasPropertyStock(): bool;
+
+    // imported product wants to import stock data
+    public function getProductHasImportStock(): bool;
+
+    // imported product wants to import price data
+    public function getProductHasImportPrice(): bool;
+
+    // imported product wants to import other information
+    public function getProductHasImportInformation(): bool;
 }
