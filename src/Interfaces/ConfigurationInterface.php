@@ -23,6 +23,12 @@ interface ConfigurationInterface
     // item GUID for the delivery product order line
     public function getOrderExportDeliveryCostItemGuid(): string;
 
+    // choose a field to use as a search field in the Exact Account
+    public function getOrderCustomerSearchField(): string;
+
+    // allow updating of existing customer addresses in Exact during order export
+    public function getOrderAllowUpdatingOfAddressesInExact(): bool;
+
     // code for the warehouse which holds the product stock
     public function getProductStockWarehouseCode(): string;
 
@@ -61,4 +67,7 @@ interface ConfigurationInterface
 
     // imported product wants to import other information
     public function getProductHasImportInformation(): bool;
+
+    // imported product are allowed to insert new products into Shopware
+    public function getProductIsAllowedToInsertNew(): bool;
 }
