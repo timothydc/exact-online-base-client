@@ -23,6 +23,9 @@ interface ConfigurationInterface
     // item GUID for the delivery product order line
     public function getOrderExportDeliveryCostItemGuid(): string;
 
+    // item GUID for the free delivery product order line
+    public function getOrderExportFreeDeliveryCostItemGuid(): string;
+
     // choose a field to use as a search field in the Exact Account
     public function getOrderCustomerSearchField(): string;
 
@@ -41,17 +44,17 @@ interface ConfigurationInterface
     // should we use the Sync API for product updates
     public function getProductImportUseSyncApi(): bool;
 
-    // what is the start timestamp for the next Sync API update
-    public function getProductImportSyncApiStartDatetime(): DateTimeInterface;
-
-    // what is the interval for the Sync API
-    public function getProductImportSyncApiInterval(): int;
+    // should we use the Sync API for stock updates
+    public function getStockImportUseSyncApi(): bool;
 
     // should we accept Item webhooks for product updates
     public function getProductImportUseWebhookForUpdates(): bool;
 
     // should we accept Item webhooks for product deletes
     public function getProductImportUseWebhookForDeletes(): bool;
+
+    // should we accept Stock Position webhooks
+    public function getStockImportUseWebhookForUpdates(): bool;
 
     // imported product should have the property "webshop" in EOL
     public function getProductImportHasPropertyWebshop(): bool;
