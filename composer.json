@@ -24,16 +24,10 @@
     "php": "^7.4|^8.0",
     "ext-json": "*",
     "monolog/monolog": "^1.26|^2.2",
-    "picqer/exact-php-client": "dev-sync-endpoints",
+    "picqer/exact-php-client": "^3.28",
     "symfony/filesystem": "^4.4|^5.2",
     "symfony/lock": "^4.4|^5.2"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/timothydc/exact-php-client"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "PolarisDC\\ExactOnline\\BaseClient\\": "src"
