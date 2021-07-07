@@ -73,4 +73,16 @@ interface ConfigurationInterface
 
     // imported product are allowed to insert new products into Shopware
     public function getProductIsAllowedToInsertNew(): bool;
+
+    // imported customers are allowed to insert new customers into Shopware
+    public function getCustomerIsAllowedToInsertNew(): bool;
+
+    // import customers with this customer groupd
+    public function getCustomerImportDefaultGroup(): string;
+
+    // prefetch selected customer classifications
+    public function getCustomerImportClassifications(): string;
+
+    // should we use the Sync API for customer
+    public function getCustomerImportUseSyncApi(): bool;
 }
