@@ -10,7 +10,7 @@ use Psr\Log\LogLevel;
 trait Loggable
 {
     protected ?LoggerInterface $logger = null;
-    protected string $defaultLogLevel = LogLevel::DEBUG;
+    protected string $defaultLogLevel = LogLevel::INFO;
 
     protected function log(string $message, array $context = [], string $level = null): void
     {
