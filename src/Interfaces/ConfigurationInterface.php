@@ -32,6 +32,12 @@ interface ConfigurationInterface
     // allow updating of existing customer addresses in Exact during order export
     public function getOrderAllowUpdatingOfAddressesInExact(): bool;
 
+    // allow imported order to update order status
+    public function getOrderAllowImportToUpdateOrderState(): bool;
+
+    // allow imported order to update delivery status
+    public function getOrderAllowImportToUpdateDeliveryState(): bool;
+
     // code for the warehouse which holds the product stock
     public function getProductStockWarehouseCode(): string;
 
@@ -55,6 +61,9 @@ interface ConfigurationInterface
 
     // should we accept Stock Position webhooks
     public function getStockImportUseWebhookForUpdates(): bool;
+
+    // should we accept Order webhooks
+    public function getOrderUseWebhookForUpdates(): bool;
 
     // imported product should have the property "webshop" in EOL
     public function getProductImportHasPropertyWebshop(): bool;
