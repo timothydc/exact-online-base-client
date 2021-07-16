@@ -65,6 +65,9 @@ interface ConfigurationInterface
     // should we accept Order webhooks
     public function getOrderUseWebhookForUpdates(): bool;
 
+    // should we accept Account webhooks
+    public function getCustomerUseWebhookForUpdates(): bool;
+
     // imported product should have the property "webshop" in EOL
     public function getProductImportHasPropertyWebshop(): bool;
 

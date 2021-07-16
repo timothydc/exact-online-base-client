@@ -20,11 +20,11 @@ trait Lockable
      * @see https://symfony.com/doc/4.4/components/lock.html#usage
      * @return Lock
      */
-    protected function getLock(): Lock
+    protected function getLock(string $lockKey = '', int $lockTimeout = 0): Lock
     {
         if (! isset($this->lock)) {
             $this->lock = (new LockFactory(new SemaphoreStore))
-                ->createLock($this->lockKey, $this->lockTimeout);
+                ->createLock( $lockKey ?: $this->lockKey, $lockTimeout ?: $this->lockTimeout);
         }
 
         return $this->lock;

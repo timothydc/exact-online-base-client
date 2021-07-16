@@ -17,6 +17,8 @@ class ExactOnlineClient
     protected ClientConfiguration $clientConfiguration;
     protected TokenVaultInterface $tokenVault;
 
+    protected ?Connection $connection;
+
     public function __construct(ClientConfiguration $clientConfiguration, TokenVaultInterface $tokenVault)
     {
         $this->clientConfiguration = $clientConfiguration;
@@ -29,28 +31,32 @@ class ExactOnlineClient
      */
     public function getConnection(?string $language = null): Connection
     {
-        $connection = $this->initializeConnection();
-        $connection->loadTokensFromVault();
+        if (! isset($this->connection)) {
+            $connection = $this->initializeConnection();
+            $this->connection = $connection;
+        }
 
-        if ($connection->needsAuthentication()) {
+        $this->connection->loadTokensFromVault();
+
+        if ($this->connection->needsAuthentication()) {
             throw new AuthenticationException('Refresh token or initial authentication code is missing.');
         }
 
         // set language
         if ($language) {
-            $connection->setCustomDescriptionLanguage($language);
+            $this->connection->setCustomDescriptionLanguage($language);
         }
 
         try {
             // actually connect
-            $connection->connect();
+            $this->connection->connect();
 
         } catch (Exception $e) {
             // catch all underlying exceptions and throw our own
             throw new ExactOnlineClientException($e->getMessage(), $e->getCode(), $e);
         }
 
-        return $connection;
+        return $this->connection;
     }
 
     /**
@@ -103,6 +109,7 @@ class ExactOnlineClient
     {
         $this->log('Exact Online Client: The Exact client is now disconnected.');
         $this->tokenVault->clear();
+        $this->connection = null;
     }
 
     protected function initializeConnection(): Connection

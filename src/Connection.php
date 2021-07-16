@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace PolarisDC\ExactOnline\BaseClient;
 
 use GuzzleHttp\Middleware;
+use Picqer\Financials\Exact\ApiException;
 use Picqer\Financials\Exact\Connection as PicqerConnection;
+use PolarisDC\ExactOnline\BaseClient\Exceptions\RateLimitException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\TokenRefreshException;
 use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 use PolarisDC\ExactOnline\BaseClient\Traits\Lockable;
@@ -38,6 +40,74 @@ class Connection extends PicqerConnection
         }
 
         $this->setCallbacks();
+    }
+
+    public function get($url, array $params = [], array $headers = [])
+    {
+        try {
+            return parent::get($url, $params, $headers);
+
+        } catch (ApiException $e) {
+
+            // catch rate limit exceptions
+            if ($e->getCode() === 429) {
+                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // rethrow all the rest
+            throw $e;
+        }
+    }
+
+    public function post($url, $body)
+    {
+        try {
+            return parent::post($url, $body);
+
+        } catch (ApiException $e) {
+
+            // catch rate limit exceptions
+            if ($e->getCode() === 429) {
+                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // rethrow all the rest
+            throw $e;
+        }
+    }
+
+    public function put($url, $body)
+    {
+        try {
+            return parent::put($url, $body);
+
+        } catch (ApiException $e) {
+
+            // catch rate limit exceptions
+            if ($e->getCode() === 429) {
+                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // rethrow all the rest
+            throw $e;
+        }
+    }
+
+    public function delete($url)
+    {
+        try {
+            return parent::delete($url);
+
+        } catch (ApiException $e) {
+
+            // catch rate limit exceptions
+            if ($e->getCode() === 429) {
+                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // rethrow all the rest
+            throw $e;
+        }
     }
 
     public function applyConfiguration(ClientConfiguration $configuration): void
