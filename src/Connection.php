@@ -12,7 +12,6 @@ use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 use PolarisDC\ExactOnline\BaseClient\Traits\Lockable;
 use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
 use Psr\Http\Message\RequestInterface;
-use Psr\Log\LogLevel;
 use Symfony\Component\Lock\Exception\LockAcquiringException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
 
@@ -217,19 +216,15 @@ class Connection extends PicqerConnection
      */
     public function acquireAccessTokenLock(Connection $connection): void
     {
-        if ($this->defaultLogLevel === LogLevel::DEBUG) {
-            $this->log('Exact Online Client: Starting a new token refresh.', [
-                'access token' => $connection->getAccessToken(),
-                'refresh token' => $connection->getRefreshToken(),
-            ]);
-        }
+        $this->log('Exact Online Client: Starting a new token refresh.', [
+            'access token' => $connection->getAccessToken(),
+            'refresh token' => $connection->getRefreshToken(),
+        ]);
 
         try {
             $this->getLock()->acquire(true);
 
-            if ($this->defaultLogLevel === LogLevel::DEBUG) {
-                $this->log('Exact Online Client: Acquired the refresh lock.');
-            }
+            $this->log('Exact Online Client: Acquired the refresh lock.');
 
         } catch (LockAcquiringException | LockConflictedException $e) {
             throw new TokenRefreshException('Exact Online Client: Could not aquire the token lock to refresh the access token', $e->getCode(), $e);
@@ -238,18 +233,14 @@ class Connection extends PicqerConnection
 
     public function refreshAccessToken(Connection $connection): void
     {
-        if ($this->defaultLogLevel === LogLevel::DEBUG) {
-            $this->log('Exact Online Client: Refreshing the connection with up to date tokens from the token vault.');
-        }
+        $this->log('Exact Online Client: Refreshing the connection with up to date tokens from the token vault.');
 
         $connection->reloadTokens();
     }
 
     public function updateAccessToken(Connection $connection): void
     {
-        if ($this->defaultLogLevel === LogLevel::DEBUG) {
-            $this->log('Exact Online Client: Storing the fresh tokens in the token vault.');
-        }
+        $this->log('Exact Online Client: Storing the fresh tokens in the token vault.');
 
         $this->tokenVault->store(
             $this->tokenVault->makeToken($connection->getAccessToken(), $connection->getRefreshToken(), $connection->getTokenExpires())
@@ -260,11 +251,9 @@ class Connection extends PicqerConnection
     {
         $this->getLock()->release();
 
-        if ($this->defaultLogLevel === LogLevel::DEBUG) {
-            $this->log('Exact Online Client: Releasing lock. Done with the token refresh.', [
-                'access token' => $connection->getAccessToken(),
-                'refresh token' => $connection->getRefreshToken(),
-            ]);
-        }
+        $this->log('Exact Online Client: Releasing lock. Done with the token refresh.', [
+            'access token' => $connection->getAccessToken(),
+            'refresh token' => $connection->getRefreshToken(),
+        ]);
     }
 }
