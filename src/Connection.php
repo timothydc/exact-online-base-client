@@ -218,7 +218,10 @@ class Connection extends PicqerConnection
     public function acquireAccessTokenLock(Connection $connection): void
     {
         if ($this->defaultLogLevel === LogLevel::DEBUG) {
-            $this->log('Exact Online Client: Starting a new token refresh.');
+            $this->log('Exact Online Client: Starting a new token refresh.', [
+                'access token' => $connection->getAccessToken(),
+                'refresh token' => $connection->getRefreshToken(),
+            ]);
         }
 
         try {
@@ -258,7 +261,10 @@ class Connection extends PicqerConnection
         $this->getLock()->release();
 
         if ($this->defaultLogLevel === LogLevel::DEBUG) {
-            $this->log('Exact Online Client: Releasing lock. Done with the token refresh.');
+            $this->log('Exact Online Client: Releasing lock. Done with the token refresh.', [
+                'access token' => $connection->getAccessToken(),
+                'refresh token' => $connection->getRefreshToken(),
+            ]);
         }
     }
 }
