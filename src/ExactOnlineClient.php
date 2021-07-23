@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PolarisDC\ExactOnline\BaseClient;
 
 use Exception;
+use Picqer\Financials\Exact\ApiException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
 use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
@@ -18,6 +19,9 @@ class ExactOnlineClient
     protected TokenVaultInterface $tokenVault;
 
     protected ?Connection $connection;
+
+    /** @var Callable */
+    protected $exactOnlineConnectionAvailableCallback;
 
     public function __construct(ClientConfiguration $clientConfiguration, TokenVaultInterface $tokenVault)
     {
@@ -47,12 +51,24 @@ class ExactOnlineClient
             $this->connection->setCustomDescriptionLanguage($language);
         }
 
+        // pass callback to Connection
+        $this->connection->setExactOnlineConnectionAvailableCallback($this->exactOnlineConnectionAvailableCallback);
+
         try {
+            // perform checks to see if we are allowed to make an API connection
+            if (is_callable($this->connection->getExactOnlineConnectionAvailableCallback())) {
+                call_user_func($this->connection->getExactOnlineConnectionAvailableCallback(), $this->connection, 'refresh token');
+            }
+
             // actually connect
             $this->connection->connect();
 
-        } catch (Exception $e) {
-            // catch all underlying exceptions and throw our own
+        } catch (ApiException $e) {
+            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+                throw new AuthenticationException(AuthenticationException::INVALID_REFRESH_TOKEN, AuthenticationException::CODE, $e, $this->connection->getClientId());
+            }
+
+            // rethrow all the rest
             throw new ExactOnlineClientException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -64,15 +80,13 @@ class ExactOnlineClient
      */
     public function startAuthorization(): void
     {
-        $this->log('Exact Online Client: Starting Exact Online authorization flow.');
+        $this->log('Exact Online Client: Starting authorization flow.');
 
         $connection = $this->initializeConnection();
 
         if ($connection->isAuthorized()) {
-            throw new ExactOnlineClientException('The Exact Online Client has already been authorized.');
+            throw new ExactOnlineClientException('The Exact Online Client: Already been authorized.');
         }
-
-        $this->log('Exact Online Client: Redirecting to Exact Online for authorization.');
 
         // redirect to the authorization URL
         $connection->redirectForAuthorization();
@@ -91,8 +105,6 @@ class ExactOnlineClient
 
         try {
             // authorize first time with authorization code (= get first access token)
-            $this->log('Exact Online Client: Received authorization callback.');
-
             $connection->setAuthorizationCode($authorizationCode);
             $connection->connect();
 
@@ -100,14 +112,14 @@ class ExactOnlineClient
 
         } catch (Exception $e) {
             // catch all underlying exceptions and throw our own
-            $this->log('Exact Online Client: Exception during authorization flow.');
+            $this->log('Exact Online Client: Exception during authorization flow: ' . $e->getMessage());
             throw new ExactOnlineClientException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     public function disconnect(): void
     {
-        $this->log('Exact Online Client: The Exact client is now disconnected.');
+        $this->log('Exact Online Client: Disconnected.');
         $this->tokenVault->clear();
         $this->connection = null;
     }
@@ -121,5 +133,11 @@ class ExactOnlineClient
         $connection->setLogger($this->logger);
 
         return $connection;
+    }
+
+    public function setExactOnlineConnectionAvailableCallback(callable $exactOnlineConnectionAvailableCallback): self
+    {
+        $this->exactOnlineConnectionAvailableCallback = $exactOnlineConnectionAvailableCallback;
+        return $this;
     }
 }

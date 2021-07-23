@@ -9,6 +9,8 @@ use Throwable;
 
 class RateLimitException extends ApiException
 {
+    public const CODE = 429;
+
     protected ?int $resetTimestamp = null;
     protected ?string $clientId = null;
 

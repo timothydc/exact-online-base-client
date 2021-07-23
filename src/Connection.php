@@ -6,6 +6,7 @@ namespace PolarisDC\ExactOnline\BaseClient;
 use GuzzleHttp\Middleware;
 use Picqer\Financials\Exact\ApiException;
 use Picqer\Financials\Exact\Connection as PicqerConnection;
+use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\RateLimitException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\TokenRefreshException;
 use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
@@ -26,6 +27,9 @@ class Connection extends PicqerConnection
 
     protected TokenVaultInterface $tokenVault;
 
+    /** @var Callable */
+    protected $exactOnlineConnectionAvailableCallback;
+
     public function __construct(?ClientConfiguration $configuration = null, ?TokenVaultInterface $tokenVault = null)
     {
         $this->setLockKey('exact-online-connection-lock');
@@ -41,16 +45,31 @@ class Connection extends PicqerConnection
         $this->setCallbacks();
     }
 
+    /**
+     * @throws ApiException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     */
     public function get($url, array $params = [], array $headers = [])
     {
         try {
+            // perform checks to see if we are allowed to make an API connection
+            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            }
+
             return parent::get($url, $params, $headers);
 
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
-            if ($e->getCode() === 429) {
+            if ($e->getCode() === RateLimitException::CODE) {
                 throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // catch "Could not acquire or refresh tokens" exceptions
+            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+                throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
             // rethrow all the rest
@@ -58,16 +77,31 @@ class Connection extends PicqerConnection
         }
     }
 
+    /**
+     * @throws ApiException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     */
     public function post($url, $body)
     {
         try {
+            // perform checks to see if we are allowed to make an API connection
+            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            }
+
             return parent::post($url, $body);
 
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
-            if ($e->getCode() === 429) {
+            if ($e->getCode() === RateLimitException::CODE) {
                 throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // catch "Could not acquire or refresh tokens" exceptions
+            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+                throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
             // rethrow all the rest
@@ -75,16 +109,31 @@ class Connection extends PicqerConnection
         }
     }
 
+    /**
+     * @throws ApiException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     */
     public function put($url, $body)
     {
         try {
+            // perform checks to see if we are allowed to make an API connection
+            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            }
+
             return parent::put($url, $body);
 
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
-            if ($e->getCode() === 429) {
-                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            if ($e->getCode() === RateLimitException::CODE) {
+                throw new RateLimitException($e->getMessage(), RateLimitException::CODE, $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // catch "Could not acquire or refresh tokens" exceptions
+            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+                throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
             // rethrow all the rest
@@ -92,16 +141,31 @@ class Connection extends PicqerConnection
         }
     }
 
+    /**
+     * @throws ApiException
+     * @throws AuthenticationException
+     * @throws RateLimitException
+     */
     public function delete($url)
     {
         try {
+            // perform checks to see if we are allowed to make an API connection
+            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            }
+
             return parent::delete($url);
 
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
-            if ($e->getCode() === 429) {
+            if ($e->getCode() === RateLimitException::CODE) {
                 throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+            }
+
+            // catch "Could not acquire or refresh tokens" exceptions
+            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+                throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
             // rethrow all the rest
@@ -255,5 +319,16 @@ class Connection extends PicqerConnection
             'access token' => $connection->getAccessToken(),
             'refresh token' => $connection->getRefreshToken(),
         ]);
+    }
+
+    public function setExactOnlineConnectionAvailableCallback(?callable $exactOnlineConnectionAvailableCallback): self
+    {
+        $this->exactOnlineConnectionAvailableCallback = $exactOnlineConnectionAvailableCallback;
+        return $this;
+    }
+
+    public function getExactOnlineConnectionAvailableCallback(): callable
+    {
+        return $this->exactOnlineConnectionAvailableCallback;
     }
 }
