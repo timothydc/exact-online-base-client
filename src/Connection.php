@@ -327,7 +327,7 @@ class Connection extends PicqerConnection
         return $this;
     }
 
-    public function getExactOnlineConnectionAvailableCallback(): callable
+    public function getExactOnlineConnectionAvailableCallback(): ?callable
     {
         return $this->exactOnlineConnectionAvailableCallback;
     }
