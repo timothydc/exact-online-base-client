@@ -117,6 +117,14 @@ class ExactOnlineClient
         }
     }
 
+    /**
+     * @return bool
+     */
+    public function clientIsAuthorized(): bool
+    {
+        return $this->initializeConnection()->isAuthorized();
+    }
+
     public function disconnect(): void
     {
         $this->log('Exact Online Client: Disconnected.');
