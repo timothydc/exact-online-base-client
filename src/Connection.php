@@ -13,6 +13,7 @@ use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 use PolarisDC\ExactOnline\BaseClient\Traits\Lockable;
 use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\LogLevel;
 use Symfony\Component\Lock\Exception\LockAcquiringException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
 
@@ -64,6 +65,10 @@ class Connection extends PicqerConnection
 
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
+
+                // log the request, so we know what request triggered the rate limit.
+                $this->logFailedRequest($e, 'GET: ' . $url, $params);
+
                 throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
             }
 
@@ -96,6 +101,10 @@ class Connection extends PicqerConnection
 
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
+
+                // log the request, so we know what request triggered the rate limit.
+                $this->logFailedRequest($e, 'POST: ' . $url, $body);
+
                 throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
             }
 
@@ -128,6 +137,10 @@ class Connection extends PicqerConnection
 
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
+
+                // log the request, so we know what request triggered the rate limit.
+                $this->logFailedRequest($e, 'PUT: ' . $url, $body);
+
                 throw new RateLimitException($e->getMessage(), RateLimitException::CODE, $e, $this->getMinutelyLimitReset(), $this->getClientId());
             }
 
@@ -160,6 +173,10 @@ class Connection extends PicqerConnection
 
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
+
+                // log the request, so we know what request triggered the rate limit.
+                $this->logFailedRequest($e, 'DELETE: ' . $url);
+
                 throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
             }
 
@@ -203,6 +220,16 @@ class Connection extends PicqerConnection
 
         // use this to unlock the connection
         $this->setAcquireAccessTokenUnlockCallback([$this, 'releaseAccessTokenLock']);
+    }
+
+    protected function logFailedRequest(\Exception $exception, string $url, $params = null): void
+    {
+        $this->log($exception->getMessage(), [
+            'url' => $url,
+            'context' => $params,
+            'minutely_limit_remaining' => $this->getMinutelyLimitRemaining(),
+            'daily_limit_remaining' => $this->getDailyLimitRemaining(),
+        ], LogLevel::WARNING);
     }
 
     public function isAuthorized(): bool
