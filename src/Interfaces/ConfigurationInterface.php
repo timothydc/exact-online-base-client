@@ -17,6 +17,9 @@ use DateTimeInterface;
 
 interface ConfigurationInterface
 {
+    // order should be exported automatically
+    public function getOrderExportAutomatically(): bool;
+
     // order should be "paid" before it can be exported
     public function getOrderExportOnlyPaid(): bool;
 
@@ -37,6 +40,9 @@ interface ConfigurationInterface
 
     // allow imported order to update delivery status
     public function getOrderAllowImportToUpdateDeliveryState(): bool;
+
+    // force product stock recalculation when an order is completed
+    public function shouldOrderProductStockBeRecalculatedAfterOrderCompletion(): bool;
 
     // code for the warehouse which holds the product stock
     public function getProductStockWarehouseCode(): string;
@@ -97,4 +103,7 @@ interface ConfigurationInterface
 
     // should we use the Sync API for customer
     public function getCustomerImportUseSyncApi(): bool;
+
+    // import customer default billing address type from EOL
+    public function getCustomerImportDefaultAddressType(): int;
 }
