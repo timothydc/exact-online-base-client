@@ -65,7 +65,15 @@ class ExactOnlineClient
 
         } catch (ApiException $e) {
             if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
-                throw new AuthenticationException(AuthenticationException::INVALID_REFRESH_TOKEN, AuthenticationException::CODE, $e, $this->connection->getClientId());
+
+                // remove the invalid access token
+                $this->tokenVault->remove($this->connection->getAccessToken());
+
+                // reload the tokens, with another (more) valid token
+                $this->connection->loadTokensFromVault();
+
+                // retry the request
+                return $this->getConnection($language);
             }
 
             // rethrow all the rest
