@@ -293,7 +293,7 @@ class Connection extends PicqerConnection
 
         $this->setAccessToken($accessToken->getAccessToken());
         $this->setRefreshToken($accessToken->getRefreshToken());
-        $this->setTokenExpires($accessToken->getExpiresAt());
+        $this->setTokenExpires($accessToken->getExpiresAt() - 15);
     }
 
     public function reloadTokens(): void
