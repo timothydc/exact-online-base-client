@@ -23,8 +23,12 @@ class RateLimitException extends ApiException
         $this->clientId = $clientId;
     }
 
-    public function getRateLimits(): ?RateLimits
+    public function getRateLimits(): RateLimits
     {
+        if (\is_null($this->rateLimits)) {
+            return new RateLimits();
+        }
+
         return $this->rateLimits;
     }
 

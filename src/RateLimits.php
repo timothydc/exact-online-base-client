@@ -4,28 +4,15 @@ namespace PolarisDC\ExactOnline\BaseClient;
 
 class RateLimits
 {
-    protected int $minutelyLimit = 60;
-    protected int $minutelyLimitRemaining = 60;
-    protected int $minutelyLimitReset = 0; // this is a timestamp of the reset moment
-    protected int $dailyLimit = 5000;
-    protected int $dailyLimitRemaining = 5000;
-    protected int $dailyLimitReset = 0; // this is a timestamp of the reset moment
-
     public function __construct(
-        ?int $minutelyLimit,
-        ?int $minutelyLimitRemaining,
-        ?int $minutelyLimitReset,
-        ?int $dailyLimit,
-        ?int $dailyLimitRemaining,
-        ?int $dailyLimitReset
+        protected int $minutelyLimit = 60,
+        protected int $minutelyLimitRemaining = 60,
+        protected int $minutelyLimitReset = 0, // this is a timestamp of the reset moment
+        protected int $dailyLimit = 5000,
+        protected int $dailyLimitRemaining = 5000,
+        protected int $dailyLimitReset = 0, // this is a timestamp of the reset moment
     )
     {
-        $this->minutelyLimit = $minutelyLimit;
-        $this->minutelyLimitRemaining = $minutelyLimitRemaining;
-        $this->minutelyLimitReset = $minutelyLimitReset;
-        $this->dailyLimit = $dailyLimit;
-        $this->dailyLimitRemaining = $dailyLimitRemaining;
-        $this->dailyLimitReset = $dailyLimitReset;
     }
 
     public function getMinutelyLimit(): int
