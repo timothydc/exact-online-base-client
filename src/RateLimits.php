@@ -4,12 +4,12 @@ namespace PolarisDC\ExactOnline\BaseClient;
 
 class RateLimits
 {
-    protected ?int $minutelyLimit;
-    protected ?int $minutelyLimitRemaining;
-    protected ?int $minutelyLimitReset;
-    protected ?int $dailyLimit;
-    protected ?int $dailyLimitRemaining;
-    protected ?int $dailyLimitReset;
+    protected int $minutelyLimit = 60;
+    protected int $minutelyLimitRemaining = 60;
+    protected int $minutelyLimitReset = 0; // this is a timestamp of the reset moment
+    protected int $dailyLimit = 5000;
+    protected int $dailyLimitRemaining = 5000;
+    protected int $dailyLimitReset = 0; // this is a timestamp of the reset moment
 
     public function __construct(
         ?int $minutelyLimit,
@@ -28,69 +28,87 @@ class RateLimits
         $this->dailyLimitReset = $dailyLimitReset;
     }
 
-    public function getMinutelyLimit(): ?int
+    public function getMinutelyLimit(): int
     {
         return $this->minutelyLimit;
     }
 
     public function setMinutelyLimit(?int $minutelyLimit): RateLimits
     {
-        $this->minutelyLimit = $minutelyLimit;
+        if (! \is_null($minutelyLimit)) {
+            $this->minutelyLimit = $minutelyLimit;
+        }
+
         return $this;
     }
 
-    public function getMinutelyLimitRemaining(): ?int
+    public function getMinutelyLimitRemaining(): int
     {
         return $this->minutelyLimitRemaining;
     }
 
     public function setMinutelyLimitRemaining(?int $minutelyLimitRemaining): RateLimits
     {
-        $this->minutelyLimitRemaining = $minutelyLimitRemaining;
+        if (! \is_null($minutelyLimitRemaining)) {
+            $this->minutelyLimitRemaining = $minutelyLimitRemaining;
+        }
+
         return $this;
     }
 
-    public function getMinutelyLimitReset(): ?int
+    public function getMinutelyLimitReset(): int
     {
         return $this->minutelyLimitReset;
     }
 
     public function setMinutelyLimitReset(?int $minutelyLimitReset): RateLimits
     {
-        $this->minutelyLimitReset = $minutelyLimitReset;
+        if (! \is_null($minutelyLimitReset)) {
+            $this->minutelyLimitReset = $minutelyLimitReset;
+        }
+
         return $this;
     }
 
-    public function getDailyLimit(): ?int
+    public function getDailyLimit(): int
     {
         return $this->dailyLimit;
     }
 
     public function setDailyLimit(?int $dailyLimit): RateLimits
     {
-        $this->dailyLimit = $dailyLimit;
+        if (! \is_null($dailyLimit)) {
+            $this->dailyLimit = $dailyLimit;
+        }
+
         return $this;
     }
 
-    public function getDailyLimitRemaining(): ?int
+    public function getDailyLimitRemaining(): int
     {
         return $this->dailyLimitRemaining;
     }
 
     public function setDailyLimitRemaining(?int $dailyLimitRemaining): RateLimits
     {
-        $this->dailyLimitRemaining = $dailyLimitRemaining;
+        if (! \is_null($dailyLimitRemaining)) {
+            $this->dailyLimitRemaining = $dailyLimitRemaining;
+        }
+
         return $this;
     }
 
-    public function getDailyLimitReset(): ?int
+    public function getDailyLimitReset(): int
     {
         return $this->dailyLimitReset;
     }
 
     public function setDailyLimitReset(?int $dailyLimitReset): RateLimits
     {
-        $this->dailyLimitReset = $dailyLimitReset;
+        if (! \is_null($dailyLimitReset)) {
+            $this->dailyLimitReset = $dailyLimitReset;
+        }
+
         return $this;
     }
 }
