@@ -7,11 +7,6 @@
   ],
   "authors": [
     {
-      "name": "Maarten Waegeman",
-      "email": "Maarten.Waegeman@polaris-dc.com",
-      "role": "Developer"
-    },
-    {
       "name": "Timothy De Cort",
       "email": "Timothy.DeCort@polaris-dc.com",
       "role": "Developer"
@@ -21,7 +16,7 @@
     "email": "support@polaris-dc.com"
   },
   "require": {
-    "php": "^7.4|^8.0",
+    "php": "^8.0|^8.1",
     "ext-json": "*",
     "monolog/monolog": "^1.26|^2.2",
     "picqer/exact-php-client": "^3.28",

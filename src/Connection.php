@@ -69,11 +69,11 @@ class Connection extends PicqerConnection
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'GET: ' . $url, $params);
 
-                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getRateLimits(), $this->getClientId());
             }
 
             // catch "Could not acquire or refresh tokens" exceptions
-            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+            if ($e->getCode() === 0 || str_contains($e->getMessage(), 'Could not acquire or refresh tokens')) {
                 throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
@@ -105,11 +105,11 @@ class Connection extends PicqerConnection
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'POST: ' . $url, $body);
 
-                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getRateLimits(), $this->getClientId());
             }
 
             // catch "Could not acquire or refresh tokens" exceptions
-            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+            if ($e->getCode() === 0 || str_contains($e->getMessage(), 'Could not acquire or refresh tokens')) {
                 throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
@@ -141,11 +141,11 @@ class Connection extends PicqerConnection
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'PUT: ' . $url, $body);
 
-                throw new RateLimitException($e->getMessage(), RateLimitException::CODE, $e, $this->getMinutelyLimitReset(), $this->getClientId());
+                throw new RateLimitException($e->getMessage(), RateLimitException::CODE, $e, $this->getRateLimits(), $this->getClientId());
             }
 
             // catch "Could not acquire or refresh tokens" exceptions
-            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+            if ($e->getCode() === 0 || str_contains($e->getMessage(), 'Could not acquire or refresh tokens')) {
                 throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
@@ -177,11 +177,11 @@ class Connection extends PicqerConnection
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'DELETE: ' . $url);
 
-                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getMinutelyLimitReset(), $this->getClientId());
+                throw new RateLimitException($e->getMessage(), $e->getCode(), $e, $this->getRateLimits(), $this->getClientId());
             }
 
             // catch "Could not acquire or refresh tokens" exceptions
-            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+            if ($e->getCode() === 0 || str_contains($e->getMessage(), 'Could not acquire or refresh tokens')) {
                 throw new AuthenticationException($e->getMessage(), AuthenticationException::CODE, $e, $this->getClientId());
             }
 
@@ -246,7 +246,7 @@ class Connection extends PicqerConnection
      */
     public function setCustomDescriptionLanguage(string $language): void
     {
-        $this->insertMiddleWare(Middleware::mapRequest(fn (RequestInterface $request) => $request->withHeader('CustomDescriptionLanguage', $language)));
+        $this->insertMiddleWare(Middleware::mapRequest(static fn (RequestInterface $request) => $request->withHeader('CustomDescriptionLanguage', $language)));
     }
 
     public function getClientId(): string
@@ -301,6 +301,18 @@ class Connection extends PicqerConnection
         $this->loadTokensFromVault();
     }
 
+    public function getRateLimits(): RateLimits
+    {
+        return new RateLimits(
+            $this->minutelyLimit,
+            $this->minutelyLimitRemaining,
+            $this->minutelyLimitReset,
+            $this->dailyLimit,
+            $this->dailyLimitRemaining,
+            $this->dailyLimitReset
+        );
+    }
+
     /**
      * @param Connection $connection
      * @throws TokenRefreshException
@@ -317,7 +329,7 @@ class Connection extends PicqerConnection
 
             $this->log('Exact Online Client: Acquired the refresh lock.');
 
-        } catch (LockAcquiringException | LockConflictedException $e) {
+        } catch (LockAcquiringException|LockConflictedException $e) {
             throw new TokenRefreshException('Exact Online Client: Could not aquire the token lock to refresh the access token', $e->getCode(), $e);
         }
     }

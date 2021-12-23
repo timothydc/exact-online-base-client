@@ -64,7 +64,7 @@ class ExactOnlineClient
             $this->connection->connect();
 
         } catch (ApiException $e) {
-            if ($e->getCode() === 0 || strpos($e->getMessage(), 'Could not acquire or refresh tokens') !== false) {
+            if ($e->getCode() === 0 || str_contains($e->getMessage(), 'Could not acquire or refresh tokens')) {
 
                 // remove the invalid access token
                 $this->tokenVault->remove($this->connection->getAccessToken());

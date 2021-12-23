@@ -92,6 +92,12 @@ interface ConfigurationInterface
     // imported product are allowed to insert new products into Shopware
     public function getProductIsAllowedToInsertNew(): bool;
 
+    // products have a product/variant relation
+    public function getHasProductVariantConfiguration(): bool;
+
+    // the product/variant property group
+    public function getProductVariantPropertyConfiguration(): bool;
+
     // imported customers are allowed to insert new customers into Shopware
     public function getCustomerIsAllowedToInsertNew(): bool;
 

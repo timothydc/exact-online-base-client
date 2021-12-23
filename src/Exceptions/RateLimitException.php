@@ -5,26 +5,27 @@ declare(strict_types=1);
 namespace PolarisDC\ExactOnline\BaseClient\Exceptions;
 
 use Picqer\Financials\Exact\ApiException;
+use PolarisDC\ExactOnline\BaseClient\RateLimits;
 use Throwable;
 
 class RateLimitException extends ApiException
 {
     public const CODE = 429;
 
-    protected ?int $resetTimestamp = null;
+    protected ?RateLimits $rateLimits = null;
     protected ?string $clientId = null;
 
-    public function __construct($message = "", $code = 0, Throwable $previous = null, int $resetTimestamp = null, string $clientId = null)
+    public function __construct($message = "", $code = 0, Throwable $previous = null, RateLimits $rateLimits = null, string $clientId = null)
     {
         parent::__construct($message, $code, $previous);
 
-        $this->resetTimestamp = $resetTimestamp;
+        $this->rateLimits = $rateLimits;
         $this->clientId = $clientId;
     }
 
-    public function getResetTimestamp(): ?int
+    public function getRateLimits(): ?RateLimits
     {
-        return $this->resetTimestamp;
+        return $this->rateLimits;
     }
 
     public function getClientId(): ?string
