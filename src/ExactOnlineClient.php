@@ -86,7 +86,7 @@ class ExactOnlineClient
     /**
      * @throws ExactOnlineClientException
      */
-    public function startAuthorization(): void
+    public function startAuthorization(string $state = ''): void
     {
         $this->log('Exact Online Client: Starting authorization flow.');
 
@@ -95,6 +95,8 @@ class ExactOnlineClient
         if ($connection->isAuthorized()) {
             throw new ExactOnlineClientException('The Exact Online Client: Already been authorized.');
         }
+
+        $connection->setState($state);
 
         // redirect to the authorization URL
         $connection->redirectForAuthorization();
