@@ -19,7 +19,7 @@
     "php": "^8.0|^8.1",
     "ext-json": "*",
     "monolog/monolog": "^1.26|^2.2",
-    "picqer/exact-php-client": "^3.28",
+    "picqer/exact-php-client": "^3.35",
     "symfony/filesystem": "^4.4|^5.2",
     "symfony/lock": "^4.4|^5.2"
   },
@@ -29,8 +29,8 @@
     }
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "optimize-autoloader": true
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  "minimum-stability": "stable"
 }
