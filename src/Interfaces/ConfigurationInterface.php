@@ -102,7 +102,7 @@ interface ConfigurationInterface
     public function getCustomerImportDefaultGroup(): string;
 
     // prefetch selected customer classifications
-    public function getCustomerImportClassifications(): array;
+    public function getActiveCustomerClassifications(): array;
 
     // should we use the Sync API for customer
     public function getCustomerImportUseSyncApi(): bool;
