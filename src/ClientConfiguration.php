@@ -15,6 +15,7 @@ class ClientConfiguration
 
     protected ?string $division;
     protected ?string $language;
+    protected mixed $country;
 
     public function __construct(
         string $clientId,
@@ -23,9 +24,9 @@ class ClientConfiguration
         string $redirectUrl,
         ?string $baseUrl = null,
         ?string $division = null,
-        ?string $language = null
-    )
-    {
+        ?string $language = null,
+        mixed $country = null
+    ) {
         $this->setClientId($clientId);
         $this->setClientSecret($clientSecret);
         $this->setWebhookSecret($webhookSecret);
@@ -33,6 +34,7 @@ class ClientConfiguration
         $this->setRedirectUrl($redirectUrl);
         $this->setDivision($division);
         $this->setLanguage($language);
+        $this->setCountry($country);
     }
 
     public function getClientId(): string
@@ -40,9 +42,10 @@ class ClientConfiguration
         return $this->clientId;
     }
 
-    public function setClientId(string $clientId): void
+    public function setClientId(string $clientId): self
     {
         $this->clientId = $clientId;
+        return $this;
     }
 
     public function getClientSecret(): string
@@ -50,9 +53,10 @@ class ClientConfiguration
         return $this->clientSecret;
     }
 
-    public function setClientSecret(string $clientSecret): void
+    public function setClientSecret(string $clientSecret): self
     {
         $this->clientSecret = $clientSecret;
+        return $this;
     }
 
     public function getWebhookSecret(): string
@@ -60,9 +64,10 @@ class ClientConfiguration
         return $this->webhookSecret;
     }
 
-    public function setWebhookSecret(string $webhookSecret): void
+    public function setWebhookSecret(string $webhookSecret): self
     {
         $this->webhookSecret = $webhookSecret;
+        return $this;
     }
 
     public function getBaseUrl(): ?string
@@ -70,9 +75,10 @@ class ClientConfiguration
         return $this->baseUrl;
     }
 
-    public function setBaseUrl(?string $baseUrl): void
+    public function setBaseUrl(?string $baseUrl): self
     {
         $this->baseUrl = $baseUrl;
+        return $this;
     }
 
     public function getRedirectUrl(): string
@@ -80,9 +86,10 @@ class ClientConfiguration
         return $this->redirectUrl;
     }
 
-    public function setRedirectUrl(string $redirectUrl): void
+    public function setRedirectUrl(string $redirectUrl): self
     {
         $this->redirectUrl = $redirectUrl;
+        return $this;
     }
 
     public function getDivision(): ?string
@@ -90,9 +97,10 @@ class ClientConfiguration
         return $this->division;
     }
 
-    public function setDivision(?string $division): void
+    public function setDivision(?string $division): self
     {
         $this->division = $division;
+        return $this;
     }
 
     public function getLanguage(): ?string
@@ -100,8 +108,20 @@ class ClientConfiguration
         return $this->language;
     }
 
-    public function setLanguage(?string $language): void
+    public function setLanguage(?string $language): self
     {
         $this->language = $language;
+        return $this;
+    }
+
+    public function getCountry(): mixed
+    {
+        return $this->country;
+    }
+
+    public function setCountry(mixed $country): self
+    {
+        $this->country = $country;
+        return $this;
     }
 }
