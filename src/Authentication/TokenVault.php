@@ -71,4 +71,8 @@ class TokenVault implements TokenVaultInterface
         $this->storagePath = $storagePath;
         return $this;
     }
+
+    public function remove(string $accessToken): void
+    {
+    }
 }
