@@ -158,4 +158,9 @@ class ExactOnlineClient
         $this->exactOnlineConnectionAvailableCallback = $exactOnlineConnectionAvailableCallback;
         return $this;
     }
+
+    public function getExactOnlineConnectionAvailableCallback(): callable
+    {
+        return $this->exactOnlineConnectionAvailableCallback;
+    }
 }
