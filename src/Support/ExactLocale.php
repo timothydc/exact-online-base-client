@@ -44,42 +44,42 @@ final class ExactLocale
     public const TURKISH = 'TR';
     public const VIETNAMESE = 'VI';
 
-    public static array $activeLocales = [
-        self::AMERICAN_ENGLISH,
-        self::ARABIC,
-        self::ARABIC_SOUTHERN_REGION,
-        self::AUSTRALIAN_ENGLISH,
-        self::BULGARIAN,
-        self::CATALAN,
-        self::CROATIAN,
-        self::CZECH,
-        self::DANISH,
-        self::DUTCH,
-        self::DUTCH_BE,
-        self::ENGLISH,
-        self::FINNISH,
-        self::FRENCH,
-        self::FRENCH_BE,
-        self::GERMAN,
-        self::GREEK,
-        self::HUNGARIAN,
-        self::ITALIAN,
-        self::JAPANESE,
-        self::KOREAN,
-        self::NORWEGIAN,
-        self::POLISH,
-        self::PORTUGUESE,
-        self::ROMANIAN,
-        self::RUSSIAN,
-        self::SIMPLIFIED_CHINESE,
-        self::SLOVAK,
-        self::SPANISH,
-        self::SPANISH_COLOMBIA,
-        self::SWEDISH,
-        self::THAI,
-        self::TRADITIONAL_CHINESE,
-        self::TURKISH,
-        self::VIETNAMESE,
+    public static array $localeTable = [
+        self::AMERICAN_ENGLISH => 'American (English)',
+        self::ARABIC => 'Arabic',
+        self::ARABIC_SOUTHERN_REGION => 'Arabic (Southern region)',
+        self::AUSTRALIAN_ENGLISH => 'Australian (English)',
+        self::BULGARIAN => 'Bulgarian',
+        self::CATALAN => 'Catalan',
+        self::CROATIAN => 'Croatian',
+        self::CZECH => 'Czech',
+        self::DANISH => 'Danish',
+        self::DUTCH => 'Dutch',
+        self::DUTCH_BE => 'Dutch (Belgium)',
+        self::ENGLISH => 'English',
+        self::FINNISH => 'Finnish',
+        self::FRENCH => 'French',
+        self::FRENCH_BE => 'French (Belgium)',
+        self::GERMAN => 'German',
+        self::GREEK => 'Greek',
+        self::HUNGARIAN => 'Hungarian',
+        self::ITALIAN => 'Italian',
+        self::JAPANESE => 'Japanese',
+        self::KOREAN => 'Korean',
+        self::NORWEGIAN => 'Norwegian',
+        self::POLISH => 'Polish',
+        self::PORTUGUESE => 'Portuguese',
+        self::ROMANIAN => 'Romanian',
+        self::RUSSIAN => 'Russian',
+        self::SIMPLIFIED_CHINESE => 'Simplified Chinese',
+        self::SLOVAK => 'Slovak',
+        self::SPANISH => 'Spanish',
+        self::SPANISH_COLOMBIA => 'Spanish (Colombia)',
+        self::SWEDISH => 'Swedish',
+        self::THAI => 'Thai',
+        self::TRADITIONAL_CHINESE => 'Traditional Chinese',
+        self::TURKISH => 'Turkish',
+        self::VIETNAMESE => 'Vietnamese',
     ];
 
     /**
@@ -96,7 +96,7 @@ final class ExactLocale
             default => \strtoupper($isoLocale),
         };
 
-        if (\in_array($locale, self::$activeLocales, true)) {
+        if (array_key_exists($locale, self::$localeTable)) {
             return $locale;
         }
 

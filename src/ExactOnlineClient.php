@@ -9,6 +9,7 @@ use Picqer\Financials\Exact\ApiException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
 use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use PolarisDC\ExactOnline\BaseClient\Support\ExactLocale;
 use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
 
 class ExactOnlineClient
@@ -17,6 +18,8 @@ class ExactOnlineClient
 
     protected ClientConfiguration $clientConfiguration;
     protected TokenVaultInterface $tokenVault;
+
+    protected ?string $cachedLanguage = null;
 
     protected ?Connection $connection;
 
@@ -35,6 +38,8 @@ class ExactOnlineClient
      */
     public function getConnection(?string $language = null): Connection
     {
+        $language = $this->chooseLanguage($language);
+
         if (! isset($this->connection)) {
             $connection = $this->initializeConnection();
             $this->connection = $connection;
@@ -119,7 +124,6 @@ class ExactOnlineClient
             $connection->connect();
 
             $this->log('Exact Online Client: Authorization flow completed successfully.');
-
         } catch (Exception $e) {
             // catch all underlying exceptions and throw our own
             $this->log('Exact Online Client: Exception during authorization flow: ' . $e->getMessage());
@@ -162,5 +166,31 @@ class ExactOnlineClient
     public function getExactOnlineConnectionAvailableCallback(): callable
     {
         return $this->exactOnlineConnectionAvailableCallback;
+    }
+
+    protected function chooseLanguage(?string $language = null): ?string
+    {
+        // load language from "cache" when it was not given
+        if (! $language) {
+            $language = $this->cachedLanguage;
+        }
+
+        // if we still have no language, attempt to load the language from the client configuration
+        if (! $language) {
+            $language = $this->clientConfiguration->getLanguage();
+        }
+
+        // check that it is a valid language
+        if ($language) {
+            $language = ExactLocale::getLocale($language);
+        }
+
+        // if the language is given and is different from the cached language, reset the connection
+        if ($language && $this->cachedLanguage !== $language) {
+            $this->connection = null;
+            $this->cachedLanguage = $language;
+        }
+
+        return $language;
     }
 }
