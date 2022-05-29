@@ -9,7 +9,7 @@ use Picqer\Financials\Exact\ApiException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
 use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
 use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
-use PolarisDC\ExactOnline\BaseClient\Support\ExactLocale;
+use PolarisDC\ExactOnline\BaseClient\Support\Locale;
 use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
 
 class ExactOnlineClient
@@ -19,7 +19,7 @@ class ExactOnlineClient
     protected ClientConfiguration $clientConfiguration;
     protected TokenVaultInterface $tokenVault;
 
-    protected ?string $cachedLanguage = null;
+    protected ?string $cachedLocale = null;
 
     protected ?Connection $connection;
 
@@ -36,9 +36,9 @@ class ExactOnlineClient
      * @throws AuthenticationException
      * @throws ExactOnlineClientException
      */
-    public function getConnection(?string $language = null): Connection
+    public function getConnection(?string $exactOnlineLocale = null): Connection
     {
-        $language = $this->chooseLanguage($language);
+        $exactOnlineLocale = $this->configureExactOnlineLocale($exactOnlineLocale);
 
         if (! isset($this->connection)) {
             $connection = $this->initializeConnection();
@@ -52,8 +52,8 @@ class ExactOnlineClient
         }
 
         // set language
-        if ($language) {
-            $this->connection->setCustomDescriptionLanguage($language);
+        if ($exactOnlineLocale) {
+            $this->connection->setCustomDescriptionLanguage($exactOnlineLocale);
         }
 
         // pass callback to Connection
@@ -78,7 +78,7 @@ class ExactOnlineClient
                 $this->connection->loadTokensFromVault();
 
                 // retry the request
-                return $this->getConnection($language);
+                return $this->getConnection($exactOnlineLocale);
             }
 
             // rethrow all the rest
@@ -168,27 +168,22 @@ class ExactOnlineClient
         return $this->exactOnlineConnectionAvailableCallback;
     }
 
-    protected function chooseLanguage(?string $language = null): ?string
+    protected function configureExactOnlineLocale(?string $language = null): ?string
     {
-        // load language from "cache" when it was not given
+        // load language from "cache" when it was not given, or attempt to load the language from the client configuration
         if (! $language) {
-            $language = $this->cachedLanguage;
-        }
-
-        // if we still have no language, attempt to load the language from the client configuration
-        if (! $language) {
-            $language = $this->clientConfiguration->getLanguage();
+            $language = $this->cachedLocale ?: $this->clientConfiguration->getLanguage();
         }
 
         // check that it is a valid language
         if ($language) {
-            $language = ExactLocale::getLocale($language);
+            $language = Locale::convertIso6391toExactLocale($language);
         }
 
         // if the language is given and is different from the cached language, reset the connection
-        if ($language && $this->cachedLanguage !== $language) {
+        if ($language && $this->cachedLocale !== $language) {
             $this->connection = null;
-            $this->cachedLanguage = $language;
+            $this->cachedLocale = $language;
         }
 
         return $language;
