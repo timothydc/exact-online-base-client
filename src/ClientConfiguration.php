@@ -9,10 +9,8 @@ class ClientConfiguration
     protected string $clientId;
     protected string $clientSecret;
     protected string $webhookSecret;
-
     protected string $redirectUrl;
     protected ?string $baseUrl;
-
     protected ?string $division;
     protected ?string $language;
     protected mixed $country;
@@ -45,6 +43,7 @@ class ClientConfiguration
     public function setClientId(string $clientId): self
     {
         $this->clientId = $clientId;
+
         return $this;
     }
 
@@ -56,6 +55,7 @@ class ClientConfiguration
     public function setClientSecret(string $clientSecret): self
     {
         $this->clientSecret = $clientSecret;
+
         return $this;
     }
 
@@ -67,6 +67,7 @@ class ClientConfiguration
     public function setWebhookSecret(string $webhookSecret): self
     {
         $this->webhookSecret = $webhookSecret;
+
         return $this;
     }
 
@@ -78,6 +79,7 @@ class ClientConfiguration
     public function setBaseUrl(?string $baseUrl): self
     {
         $this->baseUrl = $baseUrl;
+
         return $this;
     }
 
@@ -89,6 +91,7 @@ class ClientConfiguration
     public function setRedirectUrl(string $redirectUrl): self
     {
         $this->redirectUrl = $redirectUrl;
+
         return $this;
     }
 
@@ -100,6 +103,7 @@ class ClientConfiguration
     public function setDivision(?string $division): self
     {
         $this->division = $division;
+
         return $this;
     }
 
@@ -111,6 +115,7 @@ class ClientConfiguration
     public function setLanguage(?string $language): self
     {
         $this->language = $language;
+
         return $this;
     }
 
@@ -122,6 +127,7 @@ class ClientConfiguration
     public function setCountry(mixed $country): self
     {
         $this->country = $country;
+
         return $this;
     }
 }

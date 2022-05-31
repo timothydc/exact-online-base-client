@@ -25,10 +25,11 @@ class Connection extends PicqerConnection
     protected string $clientId;
     protected string $webhookSecret;
     protected string $redirectUrl;
-
     protected TokenVaultInterface $tokenVault;
 
-    /** @var Callable */
+    /**
+     * @var callable
+     */
     protected $exactOnlineConnectionAvailableCallback;
 
     public function __construct(?ClientConfiguration $configuration = null, ?TokenVaultInterface $tokenVault = null)
@@ -55,12 +56,11 @@ class Connection extends PicqerConnection
     {
         try {
             // perform checks to see if we are allowed to make an API connection
-            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
             }
 
             return parent::get($url, $params, $headers);
-
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
@@ -91,12 +91,11 @@ class Connection extends PicqerConnection
     {
         try {
             // perform checks to see if we are allowed to make an API connection
-            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
             }
 
             return parent::post($url, $body);
-
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
@@ -127,12 +126,11 @@ class Connection extends PicqerConnection
     {
         try {
             // perform checks to see if we are allowed to make an API connection
-            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
             }
 
             return parent::put($url, $body);
-
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
@@ -163,12 +161,11 @@ class Connection extends PicqerConnection
     {
         try {
             // perform checks to see if we are allowed to make an API connection
-            if (is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+            if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
             }
 
             return parent::delete($url);
-
         } catch (ApiException $e) {
 
             // catch rate limit exceptions
@@ -207,42 +204,17 @@ class Connection extends PicqerConnection
         }
     }
 
-    protected function setCallbacks(): void
-    {
-        // use this to save the access token, refresh token and 'token expires time'
-        $this->setTokenUpdateCallback([$this, 'updateAccessToken']);
-
-        // use this to load access token, refresh tokens and 'token expires time' from storage into your connection
-        $this->setRefreshAccessTokenCallback([$this, 'refreshAccessToken']);
-
-        // use this to lock the connection to block other connections from requesting a new refresh token
-        $this->setAcquireAccessTokenLockCallback([$this, 'acquireAccessTokenLock']);
-
-        // use this to unlock the connection
-        $this->setAcquireAccessTokenUnlockCallback([$this, 'releaseAccessTokenLock']);
-    }
-
-    protected function logFailedRequest(\Exception $exception, string $url, $params = null): void
-    {
-        $this->log($exception->getMessage(), [
-            'url' => $url,
-            'context' => $params,
-            'minutely_limit_remaining' => $this->getMinutelyLimitRemaining(),
-            'daily_limit_remaining' => $this->getDailyLimitRemaining(),
-        ], LogLevel::WARNING);
-    }
-
     public function isAuthorized(): bool
     {
         $accessToken = $this->tokenVault->retrieve();
-        return ($accessToken->getAccessToken() && $accessToken->getRefreshToken() && $accessToken->getExpiresAt());
+
+        return $accessToken->getAccessToken() && $accessToken->getRefreshToken() && $accessToken->getExpiresAt();
     }
 
     /**
      * Sets the language sensitive properties such as descriptions in a specific language.
      *
      * @see https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=LogisticsItems#goodToKnow
-     * @param string $language
      */
     public function setCustomDescriptionLanguage(string $language): void
     {
@@ -314,10 +286,9 @@ class Connection extends PicqerConnection
     }
 
     /**
-     * @param Connection $connection
      * @throws TokenRefreshException
      */
-    public function acquireAccessTokenLock(Connection $connection): void
+    public function acquireAccessTokenLock(self $connection): void
     {
         $this->log('Exact Online Client: Starting a new token refresh.', [
             'access token' => $connection->getAccessToken(),
@@ -328,20 +299,19 @@ class Connection extends PicqerConnection
             $this->getLock()->acquire(true);
 
             $this->log('Exact Online Client: Acquired the refresh lock.');
-
         } catch (LockAcquiringException|LockConflictedException $e) {
             throw new TokenRefreshException('Exact Online Client: Could not aquire the token lock to refresh the access token', $e->getCode(), $e);
         }
     }
 
-    public function refreshAccessToken(Connection $connection): void
+    public function refreshAccessToken(self $connection): void
     {
         $this->log('Exact Online Client: Refreshing the connection with up to date tokens from the token vault.');
 
         $connection->reloadTokens();
     }
 
-    public function updateAccessToken(Connection $connection): void
+    public function updateAccessToken(self $connection): void
     {
         $this->log('Exact Online Client: Storing the fresh tokens in the token vault.');
 
@@ -350,7 +320,7 @@ class Connection extends PicqerConnection
         );
     }
 
-    public function releaseAccessTokenLock(Connection $connection): void
+    public function releaseAccessTokenLock(self $connection): void
     {
         $this->getLock()->release();
 
@@ -363,11 +333,37 @@ class Connection extends PicqerConnection
     public function setExactOnlineConnectionAvailableCallback(?callable $exactOnlineConnectionAvailableCallback): self
     {
         $this->exactOnlineConnectionAvailableCallback = $exactOnlineConnectionAvailableCallback;
+
         return $this;
     }
 
     public function getExactOnlineConnectionAvailableCallback(): ?callable
     {
         return $this->exactOnlineConnectionAvailableCallback;
+    }
+
+    protected function setCallbacks(): void
+    {
+        // use this to save the access token, refresh token and 'token expires time'
+        $this->setTokenUpdateCallback([$this, 'updateAccessToken']);
+
+        // use this to load access token, refresh tokens and 'token expires time' from storage into your connection
+        $this->setRefreshAccessTokenCallback([$this, 'refreshAccessToken']);
+
+        // use this to lock the connection to block other connections from requesting a new refresh token
+        $this->setAcquireAccessTokenLockCallback([$this, 'acquireAccessTokenLock']);
+
+        // use this to unlock the connection
+        $this->setAcquireAccessTokenUnlockCallback([$this, 'releaseAccessTokenLock']);
+    }
+
+    protected function logFailedRequest(\Exception $exception, string $url, $params = null): void
+    {
+        $this->log($exception->getMessage(), [
+            'url' => $url,
+            'context' => $params,
+            'minutely_limit_remaining' => $this->getMinutelyLimitRemaining(),
+            'daily_limit_remaining' => $this->getDailyLimitRemaining(),
+        ], LogLevel::WARNING);
     }
 }

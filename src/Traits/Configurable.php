@@ -18,6 +18,7 @@ trait Configurable
     public function setConfiguration(ConfigurationInterface $configuration): self
     {
         $this->configuration = $configuration;
+
         return $this;
     }
 }

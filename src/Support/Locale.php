@@ -84,7 +84,7 @@ final class Locale
 
     public static function convertIso6391toExactLocale(string $iso6391): string
     {
-        $locale = array_filter(self::$locales, static fn($value) => $value['locale'] === $iso6391);
+        $locale = array_filter(self::$locales, static fn ($value) => $value['locale'] === $iso6391);
 
         return $locale
             ? array_key_first($locale) // return from mapping

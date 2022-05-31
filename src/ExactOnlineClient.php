@@ -18,12 +18,12 @@ class ExactOnlineClient
 
     protected ClientConfiguration $clientConfiguration;
     protected TokenVaultInterface $tokenVault;
-
     protected ?string $cachedLocale = null;
-
     protected ?Connection $connection;
 
-    /** @var Callable */
+    /**
+     * @var callable
+     */
     protected $exactOnlineConnectionAvailableCallback;
 
     public function __construct(ClientConfiguration $clientConfiguration, TokenVaultInterface $tokenVault)
@@ -61,13 +61,12 @@ class ExactOnlineClient
 
         try {
             // perform checks to see if we are allowed to make an API connection
-            if (is_callable($this->connection->getExactOnlineConnectionAvailableCallback())) {
-                call_user_func($this->connection->getExactOnlineConnectionAvailableCallback(), $this->connection, 'refresh token');
+            if (\is_callable($this->connection->getExactOnlineConnectionAvailableCallback())) {
+                \call_user_func($this->connection->getExactOnlineConnectionAvailableCallback(), $this->connection, 'refresh token');
             }
 
             // actually connect
             $this->connection->connect();
-
         } catch (ApiException $e) {
             if ($e->getCode() === 0 || str_contains($e->getMessage(), 'Could not acquire or refresh tokens')) {
 
@@ -127,13 +126,11 @@ class ExactOnlineClient
         } catch (Exception $e) {
             // catch all underlying exceptions and throw our own
             $this->log('Exact Online Client: Exception during authorization flow: ' . $e->getMessage());
+
             throw new ExactOnlineClientException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    /**
-     * @return bool
-     */
     public function clientIsAuthorized(): bool
     {
         return $this->initializeConnection()->isAuthorized();
@@ -146,6 +143,18 @@ class ExactOnlineClient
         $this->connection = null;
     }
 
+    public function setExactOnlineConnectionAvailableCallback(callable $exactOnlineConnectionAvailableCallback): self
+    {
+        $this->exactOnlineConnectionAvailableCallback = $exactOnlineConnectionAvailableCallback;
+
+        return $this;
+    }
+
+    public function getExactOnlineConnectionAvailableCallback(): callable
+    {
+        return $this->exactOnlineConnectionAvailableCallback;
+    }
+
     protected function initializeConnection(): Connection
     {
         $connection = new Connection();
@@ -155,17 +164,6 @@ class ExactOnlineClient
         $connection->setLogger($this->logger);
 
         return $connection;
-    }
-
-    public function setExactOnlineConnectionAvailableCallback(callable $exactOnlineConnectionAvailableCallback): self
-    {
-        $this->exactOnlineConnectionAvailableCallback = $exactOnlineConnectionAvailableCallback;
-        return $this;
-    }
-
-    public function getExactOnlineConnectionAvailableCallback(): callable
-    {
-        return $this->exactOnlineConnectionAvailableCallback;
     }
 
     protected function configureExactOnlineLocale(?string $language = null): ?string
