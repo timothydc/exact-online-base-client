@@ -12,20 +12,10 @@ trait Loggable
     protected ?LoggerInterface $logger = null;
     protected string $defaultLogLevel = LogLevel::INFO;
 
-    protected function log(string $message, array $context = [], string $level = null): void
-    {
-        if (! $level) {
-            $level = $this->defaultLogLevel;
-        }
-
-        if ($this->logger) {
-            $this->logger->log($level, $message, $context);
-        }
-    }
-
     public function setLogger(?LoggerInterface $logger): self
     {
         $this->logger = $logger;
+
         return $this;
     }
 
@@ -37,6 +27,18 @@ trait Loggable
     public function setDefaultLogLevel(string $defaultLogLevel): self
     {
         $this->defaultLogLevel = $defaultLogLevel;
+
         return $this;
+    }
+
+    protected function log(string $message, array $context = [], ?string $level = null): void
+    {
+        if (! $level) {
+            $level = $this->defaultLogLevel;
+        }
+
+        if ($this->logger) {
+            $this->logger->log($level, $message, $context);
+        }
     }
 }

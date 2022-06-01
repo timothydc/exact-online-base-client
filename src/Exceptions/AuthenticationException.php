@@ -14,7 +14,7 @@ class AuthenticationException extends Exception
 
     protected ?string $clientId = null;
 
-    public function __construct($message = "", $code = 0, Throwable $previous = null, string $clientId = null)
+    public function __construct($message = '', $code = 0, ?Throwable $previous = null, ?string $clientId = null)
     {
         parent::__construct($message, $code, $previous);
 

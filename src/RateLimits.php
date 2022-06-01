@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PolarisDC\ExactOnline\BaseClient;
 
@@ -11,8 +11,7 @@ class RateLimits
         protected int $dailyLimit = 5000,
         protected int $dailyLimitRemaining = 5000,
         protected int $dailyLimitReset = 0, // this is a timestamp of the reset moment
-    )
-    {
+    ) {
     }
 
     public function getMinutelyLimit(): int
@@ -20,9 +19,9 @@ class RateLimits
         return $this->minutelyLimit;
     }
 
-    public function setMinutelyLimit(?int $minutelyLimit): RateLimits
+    public function setMinutelyLimit(?int $minutelyLimit): self
     {
-        if (! \is_null($minutelyLimit)) {
+        if (null !== $minutelyLimit) {
             $this->minutelyLimit = $minutelyLimit;
         }
 
@@ -34,9 +33,9 @@ class RateLimits
         return $this->minutelyLimitRemaining;
     }
 
-    public function setMinutelyLimitRemaining(?int $minutelyLimitRemaining): RateLimits
+    public function setMinutelyLimitRemaining(?int $minutelyLimitRemaining): self
     {
-        if (! \is_null($minutelyLimitRemaining)) {
+        if (null !== $minutelyLimitRemaining) {
             $this->minutelyLimitRemaining = $minutelyLimitRemaining;
         }
 
@@ -48,9 +47,9 @@ class RateLimits
         return $this->minutelyLimitReset;
     }
 
-    public function setMinutelyLimitReset(?int $minutelyLimitReset): RateLimits
+    public function setMinutelyLimitReset(?int $minutelyLimitReset): self
     {
-        if (! \is_null($minutelyLimitReset)) {
+        if (null !== $minutelyLimitReset) {
             $this->minutelyLimitReset = $minutelyLimitReset;
         }
 
@@ -62,9 +61,9 @@ class RateLimits
         return $this->dailyLimit;
     }
 
-    public function setDailyLimit(?int $dailyLimit): RateLimits
+    public function setDailyLimit(?int $dailyLimit): self
     {
-        if (! \is_null($dailyLimit)) {
+        if (null !== $dailyLimit) {
             $this->dailyLimit = $dailyLimit;
         }
 
@@ -76,9 +75,9 @@ class RateLimits
         return $this->dailyLimitRemaining;
     }
 
-    public function setDailyLimitRemaining(?int $dailyLimitRemaining): RateLimits
+    public function setDailyLimitRemaining(?int $dailyLimitRemaining): self
     {
-        if (! \is_null($dailyLimitRemaining)) {
+        if (null !== $dailyLimitRemaining) {
             $this->dailyLimitRemaining = $dailyLimitRemaining;
         }
 
@@ -90,9 +89,9 @@ class RateLimits
         return $this->dailyLimitReset;
     }
 
-    public function setDailyLimitReset(?int $dailyLimitReset): RateLimits
+    public function setDailyLimitReset(?int $dailyLimitReset): self
     {
-        if (! \is_null($dailyLimitReset)) {
+        if (null !== $dailyLimitReset) {
             $this->dailyLimitReset = $dailyLimitReset;
         }
 

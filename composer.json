@@ -32,5 +32,8 @@
     "sort-packages": true,
     "optimize-autoloader": true
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "stable",
+  "require-dev": {
+    "symplify/easy-coding-standard": "^10.2"
+  }
 }

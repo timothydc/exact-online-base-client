@@ -1,0 +1,18 @@
+image: composer:2.0
+
+pipelines:
+  branches:
+    "**":
+      -   step:
+            name: Code style fixes
+            script:
+              - composer config --global bitbucket-oauth.bitbucket.org $OAUTH_CONSUMER_KEY $OAUTH_CONSUMER_SECRET
+              - composer update
+              - composer require symplify/easy-coding-standard --dev
+              - rm -f "easy-coding-standard.php"
+              - wget $ECS
+              - ./vendor/bin/ecs check --fix --config easy-coding-standard.php
+              - git add --all
+              - git diff-index --cached --quiet HEAD || git commit -m "Apply code style fixes" && git push
+            caches:
+              - composer

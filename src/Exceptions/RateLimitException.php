@@ -15,7 +15,7 @@ class RateLimitException extends ApiException
     protected ?RateLimits $rateLimits = null;
     protected ?string $clientId = null;
 
-    public function __construct($message = "", $code = 0, Throwable $previous = null, RateLimits $rateLimits = null, string $clientId = null)
+    public function __construct($message = '', $code = 0, ?Throwable $previous = null, ?RateLimits $rateLimits = null, ?string $clientId = null)
     {
         parent::__construct($message, $code, $previous);
 
@@ -25,7 +25,7 @@ class RateLimitException extends ApiException
 
     public function getRateLimits(): RateLimits
     {
-        if (\is_null($this->rateLimits)) {
+        if (null === $this->rateLimits) {
             return new RateLimits();
         }
 

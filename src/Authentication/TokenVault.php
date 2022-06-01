@@ -26,32 +26,30 @@ class TokenVault implements TokenVaultInterface
     }
 
     /**
-     * @param AccessTokenInterface $accessToken
      * @throws JsonException
      */
     public function store(AccessTokenInterface $accessToken): void
     {
-        (new Filesystem)
+        (new Filesystem())
             ->dumpFile($this->storagePath, json_encode([
                 'accessToken' => $accessToken->getAccessToken(),
                 'refreshToken' => $accessToken->getRefreshToken(),
                 'expiresAt' => $accessToken->getExpiresAt(),
-            ], JSON_THROW_ON_ERROR));
+            ], \JSON_THROW_ON_ERROR));
     }
 
     public function retrieve(): AccessTokenInterface
     {
-        if (! (new Filesystem)->exists($this->storagePath)) {
+        if (! (new Filesystem())->exists($this->storagePath)) {
             return $this->makeToken(null, null, 0);
         }
 
         try {
-            $json = json_decode(file_get_contents($this->storagePath), true, 512, JSON_THROW_ON_ERROR);
+            $json = json_decode(file_get_contents($this->storagePath), true, 512, \JSON_THROW_ON_ERROR);
 
             if (! $json) {
                 throw new JsonException('No tokens found.');
             }
-
         } catch (JsonException $e) {
             return $this->makeToken(null, null, 0);
         }
@@ -61,7 +59,7 @@ class TokenVault implements TokenVaultInterface
 
     public function clear(): void
     {
-        if ((new Filesystem)->exists($this->storagePath)) {
+        if ((new Filesystem())->exists($this->storagePath)) {
             unlink($this->storagePath);
         }
     }
@@ -69,6 +67,7 @@ class TokenVault implements TokenVaultInterface
     public function setStoragePath(string $storagePath): self
     {
         $this->storagePath = $storagePath;
+
         return $this;
     }
 

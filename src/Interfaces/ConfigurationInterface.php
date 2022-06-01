@@ -13,8 +13,6 @@ namespace PolarisDC\ExactOnline\BaseClient\Interfaces;
  *
  */
 
-use DateTimeInterface;
-
 interface ConfigurationInterface
 {
     // order should be exported automatically

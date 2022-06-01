@@ -14,22 +14,6 @@ trait Lockable
     protected string $lockKey = '';
     protected int $lockTimeout = 40;
 
-    /**
-     * Opted to use the low level atomic locking (SemaphoreStore variant) of Symfony.
-     *
-     * @see https://symfony.com/doc/4.4/components/lock.html#usage
-     * @return Lock
-     */
-    protected function getLock(string $lockKey = '', int $lockTimeout = 0): Lock
-    {
-        if (! isset($this->lock)) {
-            $this->lock = (new LockFactory(new SemaphoreStore))
-                ->createLock( $lockKey ?: $this->lockKey, $lockTimeout ?: $this->lockTimeout);
-        }
-
-        return $this->lock;
-    }
-
     public function setLockKey(string $lockKey): void
     {
         $this->lockKey = $lockKey;
@@ -38,5 +22,20 @@ trait Lockable
     public function setLockTimeout(int $lockTimeout): void
     {
         $this->lockTimeout = $lockTimeout;
+    }
+
+    /**
+     * Opted to use the low level atomic locking (SemaphoreStore variant) of Symfony.
+     *
+     * @see https://symfony.com/doc/4.4/components/lock.html#usage
+     */
+    protected function getLock(string $lockKey = '', int $lockTimeout = 0): Lock
+    {
+        if (! isset($this->lock)) {
+            $this->lock = (new LockFactory(new SemaphoreStore()))
+                ->createLock($lockKey ?: $this->lockKey, $lockTimeout ?: $this->lockTimeout);
+        }
+
+        return $this->lock;
     }
 }
