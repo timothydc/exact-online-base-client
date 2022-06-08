@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
@@ -34,77 +36,59 @@ use PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer;
+use PhpCsFixer\Fixer\StringNotation\StringLengthToEmptyFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\CompactNullableTypehintFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
-use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
-use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUselessParenthesisFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUselessStrlenFixer;
-use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
-use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 // for more CS STYLE rules look here:
-// https://mlocati.github.io/php-cs-fixer-configurator/#version:3.5|fixer:class_attributes_separation
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(SetList::SYMFONY);
-    $containerConfigurator->import(SetList::SYMFONY_RISKY);
-    $containerConfigurator->import(SetList::ARRAY);
-    $containerConfigurator->import(SetList::CONTROL_STRUCTURES);
-    $containerConfigurator->import(SetList::STRICT);
-    $containerConfigurator->import(SetList::PSR_12);
+// https://mlocati.github.io/php-cs-fixer-configurator
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->paths([__DIR__ . '/src']);
 
-    $services = $containerConfigurator->services();
-
-    $services->set(ArraySyntaxFixer::class)->call('configure', [['syntax' => 'short']]);
-    $services->set(BlankLineBeforeStatementFixer::class)->call('configure', [['statements' => ['break', 'continue', 'declare', 'return', 'throw', 'if']]]);
-    $services->set(ClassAttributesSeparationFixer::class)->call('configure', [['elements' => ['property' => 'none', 'method' => 'one']]]);
-    $services->set(CompactNullableTypehintFixer::class);
-    $services->set(ConcatSpaceFixer::class)->call('configure', [['spacing' => 'one']]);
-    $services->set(DeclareStrictTypesFixer::class);
-    $services->set(FopenFlagsFixer::class);
-    $services->set(GeneralPhpdocAnnotationRemoveFixer::class)->call('configure', [['annotations' => ['copyright', 'category']]]);
-    $services->set(MethodArgumentSpaceFixer::class)->call('configure', [['on_multiline' => 'ensure_fully_multiline']]);
-    $services->set(NativeConstantInvocationFixer::class);
-    $services->set(NativeFunctionInvocationFixer::class);
-    $services->set(NoExtraBlankLinesFixer::class)->call('configure', [['tokens' => ['case', 'continue', 'default', 'extra', 'parenthesis_brace_block', 'return', 'square_brace_block', 'switch', 'throw', 'use', 'use_trait']]]);
-    $services->set(NoImportFromGlobalNamespaceFixer::class);
-    $services->set(NoSuperfluousConcatenationFixer::class);
-    $services->set(NoSuperfluousElseifFixer::class);
-    $services->set(NoSuperfluousPhpdocTagsFixer::class)->call('configure', [['remove_inheritdoc' => true, 'allow_unused_params' => true]]);
-    $services->set(NotOperatorWithSuccessorSpaceFixer::class);
-    $services->set(NoTrailingCommaInSinglelineArrayFixer::class);
-    $services->set(NoUselessCommentFixer::class);
-    $services->set(NoUselessElseFixer::class);
-    $services->set(NoUselessParenthesisFixer::class);
-    $services->set(NoUselessReturnFixer::class);
-    $services->set(NoUselessStrlenFixer::class);
-    $services->set(NullableTypeDeclarationForDefaultNullValueFixer::class);
-    $services->set(OperatorLinebreakFixer::class);
-    $services->set(PhpdocAlignFixer::class)->call('configure', [['align' => 'left']]);
-    $services->set(PhpdocLineSpanFixer::class);
-    $services->set(PhpdocNoIncorrectVarAnnotationFixer::class);
-    $services->set(PhpdocOrderFixer::class);
-    $services->set(SelfAccessorFixer::class);
-    $services->set(SingleSpaceAfterStatementFixer::class);
-    $services->set(StrictParamFixer::class);
-    $services->set(TrailingCommaInMultilineFixer::class);
-    $services->set(VoidReturnFixer::class);
-
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set(Option::PATHS, [
-        'src',
+    $ecsConfig->sets([
+        SetList::ARRAY,
+        SetList::CONTROL_STRUCTURES,
+        SetList::STRICT,
+        SetList::PSR_12,
     ]);
 
-    $parameters->set(Option::SKIP, [
+    $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, ['syntax' => 'short']);
+    $ecsConfig->ruleWithConfiguration(BlankLineBeforeStatementFixer::class, ['statements' => ['break', 'continue', 'declare', 'return', 'throw', 'if']]);
+    $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, ['elements' => ['property' => 'none', 'method' => 'one']]);
+    $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, ['spacing' => 'one']);
+    $ecsConfig->rule(CompactNullableTypehintFixer::class);
+    $ecsConfig->rule(DeclareStrictTypesFixer::class);
+    $ecsConfig->rule(FopenFlagsFixer::class);
+    $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, ['annotations' => ['copyright', 'category']]);
+    $ecsConfig->ruleWithConfiguration(MethodArgumentSpaceFixer::class, ['on_multiline' => 'ensure_fully_multiline']);
+    $ecsConfig->rule(NativeConstantInvocationFixer::class);
+    $ecsConfig->rule(NativeFunctionInvocationFixer::class);
+    $ecsConfig->ruleWithConfiguration(NoExtraBlankLinesFixer::class, ['tokens' => ['case', 'continue', 'default', 'extra', 'parenthesis_brace_block', 'return', 'square_brace_block', 'switch', 'throw', 'use', 'use_trait']]);
+    $ecsConfig->rule(NoSuperfluousElseifFixer::class);
+    $ecsConfig->ruleWithConfiguration(NoSuperfluousPhpdocTagsFixer::class, ['remove_inheritdoc' => true, 'allow_unused_params' => true]);
+    $ecsConfig->rule(NotOperatorWithSuccessorSpaceFixer::class);
+    $ecsConfig->rule(NoTrailingCommaInSinglelineArrayFixer::class);
+
+    $ecsConfig->rule(NoUselessElseFixer::class);
+    $ecsConfig->rule(NoUselessReturnFixer::class);
+    $ecsConfig->rule(StringLengthToEmptyFixer::class);
+    $ecsConfig->rule(NullableTypeDeclarationForDefaultNullValueFixer::class);
+    $ecsConfig->rule(OperatorLinebreakFixer::class);
+    $ecsConfig->ruleWithConfiguration(PhpdocAlignFixer::class, ['align' => 'left']);
+    $ecsConfig->rule(PhpdocLineSpanFixer::class);
+    $ecsConfig->rule(PhpdocOrderFixer::class);
+    $ecsConfig->rule(SelfAccessorFixer::class);
+    $ecsConfig->rule(StrictParamFixer::class);
+    $ecsConfig->rule(TrailingCommaInMultilineFixer::class);
+    $ecsConfig->rule(VoidReturnFixer::class);
+
+    $ecsConfig->skip([
         AssignmentInConditionSniff::class => null,
         ArrayListItemNewlineFixer::class => null,
         ArrayOpenerAndCloserNewlineFixer::class => null,
