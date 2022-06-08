@@ -1,18 +1,31 @@
-image: composer:2.0
+image: php:8.0-cli
 
 pipelines:
   branches:
     "**":
-      -   step:
-            name: Code style fixes
-            script:
-              - composer config --global bitbucket-oauth.bitbucket.org $OAUTH_CONSUMER_KEY $OAUTH_CONSUMER_SECRET
-              - composer update
-              - composer require symplify/easy-coding-standard --dev
-              - rm -f "easy-coding-standard.php"
-              - wget $ECS
-              - ./vendor/bin/ecs check --fix --config easy-coding-standard.php
-              - git add --all
-              - git diff-index --cached --quiet HEAD || git commit -m "Apply code style fixes" && git push
-            caches:
-              - composer
+      - step:
+          name: Code style fixes
+          caches:
+            - composer
+          script:
+            # install all packages we need
+            - apt-get update && apt-get install -y wget unzip git git-core libc-client-dev libkrb5-dev libicu-dev
+            - docker-php-ext-configure intl && docker-php-ext-install intl
+            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            # allow access to our private composer repositories
+            - composer config --global bitbucket-oauth.bitbucket.org $OAUTH_CONSUMER_KEY $OAUTH_CONSUMER_SECRET
+            - composer install
+            # add ECS package if it was missing
+            - composer require symplify/easy-coding-standard --dev
+            # remove (old) ECS configuration
+            - rm -f "easy-coding-standard.php"
+            # download a fresh copy of the ECS configuration
+            - wget $ECS
+            # run and apply code style fixes
+            - ./vendor/bin/ecs check --fix --config easy-coding-standard.php
+            # update composer packages
+            - composer update --no-dev
+            # commit all changes
+            - git add --all
+            # check if there is anything and commit if so
+            - git diff-index --cached --quiet HEAD || git commit -m "Apply code style fixes" && git push
