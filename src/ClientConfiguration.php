@@ -156,7 +156,7 @@ class ClientConfiguration
         }
     }
 
-    public function addExtension(string $key, array $extension): self
+    public function addExtension(string $key, mixed $extension): self
     {
         $this->extensions[$key] = $extension;
 

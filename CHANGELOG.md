@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.2] - 2022-08-15
+### Changed
+- Allow `mixed` types when setting a Client configuration extension
+
 ## [2.5.1] - 2022-08-15
 ### Changed
 - Allow `mixed` return types when getting a Client configuration extension
@@ -49,7 +53,8 @@ PHP7.4 support
 ## Initial release - 2021-05-12
 
 
-[Unreleased]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.1...HEAD
+[Unreleased]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.2...HEAD
+[2.5.2]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.2..v2.5.1
 [2.5.1]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.1..v2.5.0
 [2.5.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.0..v2.4.0
 [2.4.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.4.0..v2.3.1
