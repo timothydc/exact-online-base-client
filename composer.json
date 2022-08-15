@@ -34,6 +34,6 @@
   },
   "minimum-stability": "stable",
   "require-dev": {
-    "symplify/easy-coding-standard": "^10.2"
+    "symplify/easy-coding-standard": "^11.1"
   }
 }
