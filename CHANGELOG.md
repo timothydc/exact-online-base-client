@@ -6,12 +6,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.1.0] - 2022-08-15
+## [v2.5.0] - 2022-08-15
 ### Added
 - Client configuration object can store additional meta data
 
 ### Fixed
 - Code styling via Bitbucket pipelines
+
+## [v2.4.0] - 2022-06-01
+### Added
+- Optional multi-language functionality in EOL client
+
+## [v2.3.1] - 2022-04-12
+### Fixed
+- Added missing callback getter
+
+## [v2.3.0] - 2022-04-12
+### Added
+- Exact Online language code mapping
+
+## [v2.2.0] - 2022-01-19
+### Changed
+- Rename configuration method
+
+## [v2.1.0] - 2022-01-18
+### Added
+- Support `state` parameter during OAuth
 
 ## [v2.0.0] - 2021-12-23
 ### Added
