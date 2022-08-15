@@ -1,4 +1,5 @@
-image: php:8.0-cli
+# v2.0.0
+image: bitnami/php-fpm:8.0
 
 pipelines:
   branches:
@@ -9,12 +10,13 @@ pipelines:
             - composer
           script:
             # install all packages we need
-            - apt-get update && apt-get install -y wget unzip git git-core libc-client-dev libkrb5-dev libicu-dev
-            - docker-php-ext-configure intl && docker-php-ext-install intl
+            - apt-get update && apt-get install -y git git-core
+            # just keep this in, because why not
+            - php -m
+            # install composer
             - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
             # allow access to our private composer repositories
             - composer config --global bitbucket-oauth.bitbucket.org $OAUTH_CONSUMER_KEY $OAUTH_CONSUMER_SECRET
-            - composer install
             # add ECS package if it was missing
             - composer require symplify/easy-coding-standard --dev
             # remove (old) ECS configuration
@@ -23,8 +25,6 @@ pipelines:
             - wget $ECS
             # run and apply code style fixes
             - ./vendor/bin/ecs check --fix --config easy-coding-standard.php
-            # update composer packages
-            - composer update --no-dev
             # commit all changes
             - git add --all
             # check if there is anything and commit if so

@@ -14,6 +14,7 @@ class ClientConfiguration
     protected ?string $division;
     protected ?string $language;
     protected mixed $country;
+    protected array $extensions = [];
 
     public function __construct(
         string $clientId,
@@ -23,7 +24,8 @@ class ClientConfiguration
         ?string $baseUrl = null,
         ?string $division = null,
         ?string $language = null,
-        mixed $country = null
+        mixed $country = null,
+        array $extensions = []
     ) {
         $this->setClientId($clientId);
         $this->setClientSecret($clientSecret);
@@ -33,6 +35,7 @@ class ClientConfiguration
         $this->setDivision($division);
         $this->setLanguage($language);
         $this->setCountry($country);
+        $this->setExtensions($extensions);
     }
 
     public function getClientId(): string
@@ -129,5 +132,46 @@ class ClientConfiguration
         $this->country = $country;
 
         return $this;
+    }
+
+    public function getExtension(string $key): ?array
+    {
+        return $this->extensions[$key] ?? null;
+    }
+
+    public function getExtensions(): array
+    {
+        return $this->extensions;
+    }
+
+    public function setExtensions(array $extensions): void
+    {
+        $this->extensions = $extensions;
+    }
+
+    public function addExtensions(array $extensions): void
+    {
+        foreach ($extensions as $key => $extension) {
+            $this->addExtension($key, $extension);
+        }
+    }
+
+    public function addExtension(string $key, array $extension): self
+    {
+        $this->extensions[$key] = $extension;
+
+        return $this;
+    }
+
+    public function hasExtension(string $key): bool
+    {
+        return isset($this->extensions[$key]);
+    }
+
+    public function removeExtension(string $key): void
+    {
+        if (isset($this->extensions[$key])) {
+            unset($this->extensions[$key]);
+        }
     }
 }

@@ -16,7 +16,7 @@
     "email": "support@polaris-dc.com"
   },
   "require": {
-    "php": "^8.0|^8.1",
+    "php": "^8.0",
     "ext-json": "*",
     "monolog/monolog": "^1.26|^2.2",
     "picqer/exact-php-client": "^3.35",

@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0] - 2022-08-15
+### Added
+- Client configuration object can store additional meta data
+
+### Fixed
+- Code styling via Bitbucket pipelines
+
 ## [v2.0.0] - 2021-12-23
 ### Added
 - PHP8.1 support
