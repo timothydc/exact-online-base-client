@@ -134,7 +134,7 @@ class ClientConfiguration
         return $this;
     }
 
-    public function getExtension(string $key): ?array
+    public function getExtension(string $key): mixed
     {
         return $this->extensions[$key] ?? null;
     }

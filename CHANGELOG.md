@@ -6,34 +6,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.5.0] - 2022-08-15
+## [2.5.1] - 2022-08-15
+### Changed
+- Allow `mixed` return types when getting a Client configuration extension
+
+## [2.5.0] - 2022-08-15
 ### Added
 - Client configuration object can store additional meta data
 
 ### Fixed
 - Code styling via Bitbucket pipelines
 
-## [v2.4.0] - 2022-06-01
+## [2.4.0] - 2022-06-01
 ### Added
 - Optional multi-language functionality in EOL client
 
-## [v2.3.1] - 2022-04-12
+## [2.3.1] - 2022-04-12
 ### Fixed
 - Added missing callback getter
 
-## [v2.3.0] - 2022-04-12
+## [2.3.0] - 2022-04-12
 ### Added
 - Exact Online language code mapping
 
-## [v2.2.0] - 2022-01-19
+## [2.2.0] - 2022-01-19
 ### Changed
 - Rename configuration method
 
-## [v2.1.0] - 2022-01-18
+## [2.1.0] - 2022-01-18
 ### Added
 - Support `state` parameter during OAuth
 
-## [v2.0.0] - 2021-12-23
+## [2.0.0] - 2021-12-23
 ### Added
 - PHP8.1 support
 - more configuration methods
@@ -42,6 +46,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 PHP7.4 support
 
-## [v1.0.0] - 2021-05-12
-### Added
-- Initial release
+## Initial release - 2021-05-12
+
+
+[Unreleased]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.1...HEAD
+[2.5.1]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.1..v2.5.0
+[2.5.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.0..v2.4.0
+[2.4.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.4.0..v2.3.1
+[2.3.1]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.3.1..v2.3.0
+[2.3.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.3.0..v2.2.0
+[2.2.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.2.0..v2.1.0
+[2.1.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.1.0..v2.0.0
+[2.0.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.0.0..v1.0.0
