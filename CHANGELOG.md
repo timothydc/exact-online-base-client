@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.0] - 2022-11-10
+### Added
+- Extended logging for HTTP requests
+
 ## [2.5.2] - 2022-08-15
 ### Changed
 - Allow `mixed` types when setting a Client configuration extension

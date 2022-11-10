@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PolarisDC\ExactOnline\BaseClient;
@@ -57,15 +58,13 @@ class Connection extends PicqerConnection
         try {
             // perform checks to see if we are allowed to make an API connection
             if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, sprintf('%s: %s', 'GET', $url), $params);
             }
 
             return parent::get($url, $params, $headers);
         } catch (ApiException $e) {
-
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
-
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'GET: ' . $url, $params);
 
@@ -92,15 +91,13 @@ class Connection extends PicqerConnection
         try {
             // perform checks to see if we are allowed to make an API connection
             if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, sprintf('%s: %s', 'POST', $url), $body);
             }
 
             return parent::post($url, $body);
         } catch (ApiException $e) {
-
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
-
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'POST: ' . $url, $body);
 
@@ -127,15 +124,13 @@ class Connection extends PicqerConnection
         try {
             // perform checks to see if we are allowed to make an API connection
             if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, sprintf('%s: %s', 'PUT', $url), $body);
             }
 
             return parent::put($url, $body);
         } catch (ApiException $e) {
-
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
-
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'PUT: ' . $url, $body);
 
@@ -162,15 +157,13 @@ class Connection extends PicqerConnection
         try {
             // perform checks to see if we are allowed to make an API connection
             if (\is_callable($this->getExactOnlineConnectionAvailableCallback())) {
-                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, $url);
+                \call_user_func($this->getExactOnlineConnectionAvailableCallback(), $this, sprintf('%s: %s', 'DELETE', $url));
             }
 
             return parent::delete($url);
         } catch (ApiException $e) {
-
             // catch rate limit exceptions
             if ($e->getCode() === RateLimitException::CODE) {
-
                 // log the request, so we know what request triggered the rate limit.
                 $this->logFailedRequest($e, 'DELETE: ' . $url);
 

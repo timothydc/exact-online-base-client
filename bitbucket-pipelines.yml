@@ -1,5 +1,5 @@
-# v2.0.0
-image: bitnami/php-fpm:8.0
+# v2.0.2
+image: bitnami/php-fpm:8.0.22-debian-11-r7
 
 pipelines:
   branches:
@@ -18,13 +18,16 @@ pipelines:
             # allow access to our private composer repositories
             - composer config --global bitbucket-oauth.bitbucket.org $OAUTH_CONSUMER_KEY $OAUTH_CONSUMER_SECRET
             # add ECS package if it was missing
-            - composer require symplify/easy-coding-standard --dev
+            - composer require symplify/easy-coding-standard:11.1.12 --dev
             # remove (old) ECS configuration
             - rm -f "easy-coding-standard.php"
             # download a fresh copy of the ECS configuration
             - wget $ECS
             # run and apply code style fixes
-            - ./vendor/bin/ecs check --fix --config easy-coding-standard.php
+            - ./vendor/bin/ecs check --fix --config easy-coding-standard.php |& tee -a ecs_feedback.txt
+          after-script:
+            # output and remove the ECS output
+            - cat ecs_feedback.txt && rm -f ecs_feedback.txt
             # commit all changes
             - git add --all
             # check if there is anything and commit if so
