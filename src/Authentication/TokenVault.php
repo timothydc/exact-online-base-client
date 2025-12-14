@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Authentication;
+namespace TimothyDC\ExactOnline\BaseClient\Authentication;
 
 use JsonException;
-use Timothydc\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
-use Timothydc\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use TimothyDC\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
+use TimothyDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class TokenVault implements TokenVaultInterface

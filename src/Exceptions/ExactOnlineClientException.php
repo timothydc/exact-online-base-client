@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Exceptions;
+namespace TimothyDC\ExactOnline\BaseClient\Exceptions;
 
 use Exception;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Support;
+namespace TimothyDC\ExactOnline\BaseClient\Support;
 
-use Timothydc\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
+use TimothyDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
 
 final class Locale
 {

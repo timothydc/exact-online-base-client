@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Traits;
+namespace TimothyDC\ExactOnline\BaseClient\Traits;
 
-use Timothydc\ExactOnline\BaseClient\Interfaces\ConfigurationInterface;
+use TimothyDC\ExactOnline\BaseClient\Interfaces\ConfigurationInterface;
 
 trait Configurable
 {

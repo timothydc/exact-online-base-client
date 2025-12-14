@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Exceptions;
+namespace TimothyDC\ExactOnline\BaseClient\Exceptions;
 
 use Picqer\Financials\Exact\ApiException;
-use Timothydc\ExactOnline\BaseClient\RateLimits;
+use TimothyDC\ExactOnline\BaseClient\RateLimits;
 use Throwable;
 
 class RateLimitException extends ApiException

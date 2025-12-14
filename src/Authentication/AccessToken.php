@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Authentication;
+namespace TimothyDC\ExactOnline\BaseClient\Authentication;
 
-use Timothydc\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
+use TimothyDC\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
 
 class AccessToken implements AccessTokenInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Traits;
+namespace TimothyDC\ExactOnline\BaseClient\Traits;
 
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface as Lock;

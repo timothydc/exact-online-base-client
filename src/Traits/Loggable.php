@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Traits;
+namespace TimothyDC\ExactOnline\BaseClient\Traits;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient;
+namespace TimothyDC\ExactOnline\BaseClient;
 
 class ClientConfiguration
 {

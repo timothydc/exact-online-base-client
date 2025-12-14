@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Timothydc\ExactOnline\BaseClient\Interfaces;
+namespace TimothyDC\ExactOnline\BaseClient\Interfaces;
 
 /*
  * Method naming suggestion:

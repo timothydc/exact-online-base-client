@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Timothydc\\ExactOnline\\BaseClient\\": "src"
+      "TimothyDC\\ExactOnline\\BaseClient\\": "src"
     }
   },
   "config": {
