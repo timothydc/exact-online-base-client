@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0] - 2025-12-14
+## [4.0.0] - 2025-12-14
 ### Changed
 - Namespace
 
@@ -61,8 +61,8 @@ PHP7.4 support
 ## Initial release - 2021-05-12
 
 
-[Unreleased]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v3.0.0...HEAD
-[3.0.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v3.0.0..v2.6.0
+[Unreleased]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v4.0.0...HEAD
+[3.0.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v4.0.0..v2.6.0
 [2.6.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.6.0..v2.5.2
 [2.5.2]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.5.2..v2.5.1
 [2.5.1]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.5.1..v2.5.0
