@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient;
+namespace Timothydc\ExactOnline\BaseClient;
 
 use Exception;
 use Picqer\Financials\Exact\ApiException;
-use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
-use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
-use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
-use PolarisDC\ExactOnline\BaseClient\Support\Locale;
-use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
+use Timothydc\ExactOnline\BaseClient\Exceptions\AuthenticationException;
+use Timothydc\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
+use Timothydc\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use Timothydc\ExactOnline\BaseClient\Support\Locale;
+use Timothydc\ExactOnline\BaseClient\Traits\Loggable;
 
 class ExactOnlineClient
 {

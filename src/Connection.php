@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient;
+namespace Timothydc\ExactOnline\BaseClient;
 
 use GuzzleHttp\Middleware;
 use Picqer\Financials\Exact\ApiException;
 use Picqer\Financials\Exact\Connection as PicqerConnection;
-use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
-use PolarisDC\ExactOnline\BaseClient\Exceptions\RateLimitException;
-use PolarisDC\ExactOnline\BaseClient\Exceptions\TokenRefreshException;
-use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
-use PolarisDC\ExactOnline\BaseClient\Traits\Lockable;
-use PolarisDC\ExactOnline\BaseClient\Traits\Loggable;
+use Timothydc\ExactOnline\BaseClient\Exceptions\AuthenticationException;
+use Timothydc\ExactOnline\BaseClient\Exceptions\RateLimitException;
+use Timothydc\ExactOnline\BaseClient\Exceptions\TokenRefreshException;
+use Timothydc\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use Timothydc\ExactOnline\BaseClient\Traits\Lockable;
+use Timothydc\ExactOnline\BaseClient\Traits\Loggable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Lock\Exception\LockAcquiringException;

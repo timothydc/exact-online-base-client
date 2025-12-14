@@ -57,14 +57,14 @@ PHP7.4 support
 ## Initial release - 2021-05-12
 
 
-[Unreleased]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.6.0...HEAD
-[2.6.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.6.0..v2.5.2
-[2.5.2]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.2..v2.5.1
-[2.5.1]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.1..v2.5.0
-[2.5.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.5.0..v2.4.0
-[2.4.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.4.0..v2.3.1
-[2.3.1]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.3.1..v2.3.0
-[2.3.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.3.0..v2.2.0
-[2.2.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.2.0..v2.1.0
-[2.1.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.1.0..v2.0.0
-[2.0.0]: https://bitbucket.org/polaris-dc/exact-online-base-client/branches/compare/v2.0.0..v1.0.0
+[Unreleased]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.6.0...HEAD
+[2.6.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.6.0..v2.5.2
+[2.5.2]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.5.2..v2.5.1
+[2.5.1]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.5.1..v2.5.0
+[2.5.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.5.0..v2.4.0
+[2.4.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.4.0..v2.3.1
+[2.3.1]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.3.1..v2.3.0
+[2.3.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.3.0..v2.2.0
+[2.2.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.2.0..v2.1.0
+[2.1.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.1.0..v2.0.0
+[2.0.0]: https://bitbucket.org/timothydc/exact-online-base-client/branches/compare/v2.0.0..v1.0.0

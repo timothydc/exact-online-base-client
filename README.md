@@ -7,9 +7,9 @@ This package provides a wrapper for the Exact Online API.
 The basic configuration looks like this:
 
 ```php
-use PolarisDC\ExactOnline\BaseClient\ExactOnlineClient;
-use PolarisDC\ExactOnline\BaseClient\ClientConfiguration;
-use PolarisDC\ExactOnline\BaseClient\Authentication\TokenVault;
+use Timothydc\ExactOnline\BaseClient\ExactOnlineClient;
+use Timothydc\ExactOnline\BaseClient\ClientConfiguration;
+use Timothydc\ExactOnline\BaseClient\Authentication\TokenVault;
 use Psr\Log\LogLevel;
 
 $clientConfiguration = new ClientConfiguration(
@@ -79,8 +79,8 @@ Tokens will be saved, by default, in a json file on the local disk.
 To make a custom driver, create a custom Vault class which extends the `TokenVaultInterface`-interface.
 
 ```php
-use PolarisDC\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
-use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use Timothydc\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
+use Timothydc\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 
 class TokenVault implements TokenVaultInterface
 {
@@ -105,7 +105,7 @@ class TokenVault implements TokenVaultInterface
 And also a custom Token class which extends the `AccessTokenInterface`-interface.
 
 ```php
-use PolarisDC\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
+use Timothydc\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
 
 class Token implements AccessTokenInterface
 {

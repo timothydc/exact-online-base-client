@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient;
+namespace Timothydc\ExactOnline\BaseClient;
 
 class RateLimits
 {

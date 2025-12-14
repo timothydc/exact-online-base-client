@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient\Exceptions;
+namespace Timothydc\ExactOnline\BaseClient\Exceptions;
 
 use Picqer\Financials\Exact\ApiException;
-use PolarisDC\ExactOnline\BaseClient\RateLimits;
+use Timothydc\ExactOnline\BaseClient\RateLimits;
 use Throwable;
 
 class RateLimitException extends ApiException

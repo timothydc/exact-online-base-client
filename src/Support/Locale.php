@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient\Support;
+namespace Timothydc\ExactOnline\BaseClient\Support;
 
-use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
+use Timothydc\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
 
 final class Locale
 {

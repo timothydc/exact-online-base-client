@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient\Exceptions;
+namespace Timothydc\ExactOnline\BaseClient\Exceptions;
 
 use Exception;
 

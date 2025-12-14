@@ -1,5 +1,5 @@
 {
-  "name": "polaris-dc/exact-online-base-client",
+  "name": "timothydc/exact-online-base-client",
   "description": "Exact Online base client",
   "license": "MIT",
   "keywords": [
@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "PolarisDC\\ExactOnline\\BaseClient\\": "src"
+      "Timothydc\\ExactOnline\\BaseClient\\": "src"
     }
   },
   "config": {

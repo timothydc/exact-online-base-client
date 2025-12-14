@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient\Interfaces;
+namespace Timothydc\ExactOnline\BaseClient\Interfaces;
 
 interface TokenVaultInterface
 {

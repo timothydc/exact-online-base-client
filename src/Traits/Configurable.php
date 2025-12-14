@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\BaseClient\Traits;
+namespace Timothydc\ExactOnline\BaseClient\Traits;
 
-use PolarisDC\ExactOnline\BaseClient\Interfaces\ConfigurationInterface;
+use Timothydc\ExactOnline\BaseClient\Interfaces\ConfigurationInterface;
 
 trait Configurable
 {
